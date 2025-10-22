@@ -35,3 +35,4 @@ dump.rdb
 # Environment file variants
 .env.*
 !.env.example
+sql_consolidated/
