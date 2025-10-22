@@ -20,9 +20,11 @@ data/
 *.pdf
 *.png
 
-# SQL files and directories
-*.sql
+# SQL files and directories (exclude large SQL dumps, but keep migrations)
+sql_consolidated/
+sql_inserts/
 sql_*/
+!migrations/*.sql
 
 # IDE
 .vscode/
