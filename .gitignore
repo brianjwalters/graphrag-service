@@ -20,6 +20,10 @@ data/
 *.pdf
 *.png
 
+# SQL files and directories
+*.sql
+sql_*/
+
 # IDE
 .vscode/
 .idea/
@@ -35,4 +39,3 @@ dump.rdb
 # Environment file variants
 .env.*
 !.env.example
-sql_consolidated/
