@@ -1,0 +1,101 @@
+{
+  "graph.document_registry": {
+    "uploaded_count": 0,
+    "timestamp": "2025-10-09T09:19:57.317775",
+    "stats": {
+      "total_records": 100,
+      "uploaded_records": 0,
+      "failed_records": 100,
+      "batches_processed": 1,
+      "records_per_second": 0.0
+    }
+  },
+  "graph.nodes": {
+    "uploaded_count": 0,
+    "timestamp": "2025-10-09T09:20:09.084645",
+    "stats": {
+      "total_records": 100,
+      "uploaded_records": 0,
+      "failed_records": 100,
+      "batches_processed": 1,
+      "records_per_second": 0.0
+    }
+  },
+  "graph.communities": {
+    "uploaded_count": 0,
+    "timestamp": "2025-10-09T09:20:10.217976",
+    "stats": {
+      "total_records": 100,
+      "uploaded_records": 0,
+      "failed_records": 100,
+      "batches_processed": 1,
+      "records_per_second": 0.0
+    }
+  },
+  "graph.edges": {
+    "uploaded_count": 0,
+    "timestamp": "2025-10-09T09:20:10.422860",
+    "stats": {
+      "total_records": 100,
+      "uploaded_records": 0,
+      "failed_records": 100,
+      "batches_processed": 1,
+      "records_per_second": 0.0
+    }
+  },
+  "graph.node_communities": {
+    "uploaded_count": 0,
+    "timestamp": "2025-10-09T09:20:10.662837",
+    "stats": {
+      "total_records": 100,
+      "uploaded_records": 0,
+      "failed_records": 100,
+      "batches_processed": 1,
+      "records_per_second": 0.0
+    }
+  },
+  "graph.chunks": {
+    "uploaded_count": 0,
+    "timestamp": "2025-10-09T09:20:37.254822",
+    "stats": {
+      "total_records": 100,
+      "uploaded_records": 0,
+      "failed_records": 100,
+      "batches_processed": 1,
+      "records_per_second": 0.0
+    }
+  },
+  "graph.enhanced_contextual_chunks": {
+    "uploaded_count": 0,
+    "timestamp": "2025-10-09T09:21:03.767272",
+    "stats": {
+      "total_records": 100,
+      "uploaded_records": 0,
+      "failed_records": 100,
+      "batches_processed": 1,
+      "records_per_second": 0.0
+    }
+  },
+  "graph.text_units": {
+    "uploaded_count": 0,
+    "timestamp": "2025-10-09T09:21:04.040471",
+    "stats": {
+      "total_records": 100,
+      "uploaded_records": 0,
+      "failed_records": 100,
+      "batches_processed": 1,
+      "records_per_second": 0.0
+    }
+  },
+  "graph.reports": {
+    "uploaded_count": 0,
+    "timestamp": "2025-10-09T09:21:04.230401",
+    "stats": {
+      "total_records": 100,
+      "uploaded_records": 0,
+      "failed_records": 100,
+      "batches_processed": 1,
+      "records_per_second": 0.0
+    }
+  }
+}

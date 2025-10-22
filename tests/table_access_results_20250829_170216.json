@@ -1,0 +1,324 @@
+{
+  "timestamp": "2025-08-29T17:02:16.097469",
+  "law_schema": {
+    "documents": {
+      "read": {
+        "table": "law.documents",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Complex SQL queries require an RPC function 'execute_sql' to be defined in the database. Please create this function or use the standard CRUD methods (get, insert, update, delete)."
+      },
+      "write": {
+        "table": "law.documents",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "c7d1073c-698d-49d4-aedf-241ee1f131c4",
+        "error": null
+      }
+    },
+    "opinions": {
+      "read": {
+        "table": "law.opinions",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Complex SQL queries require an RPC function 'execute_sql' to be defined in the database. Please create this function or use the standard CRUD methods (get, insert, update, delete)."
+      },
+      "write": {
+        "table": "law.opinions",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": null,
+        "error": "Skipped - protected reference table"
+      }
+    },
+    "statutes": {
+      "read": {
+        "table": "law.statutes",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Complex SQL queries require an RPC function 'execute_sql' to be defined in the database. Please create this function or use the standard CRUD methods (get, insert, update, delete)."
+      },
+      "write": {
+        "table": "law.statutes",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": null,
+        "error": "Skipped - protected reference table"
+      }
+    },
+    "regulations": {
+      "read": {
+        "table": "law.regulations",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Complex SQL queries require an RPC function 'execute_sql' to be defined in the database. Please create this function or use the standard CRUD methods (get, insert, update, delete)."
+      },
+      "write": {
+        "table": "law.regulations",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": null,
+        "error": "Skipped - protected reference table"
+      }
+    },
+    "administrative_codes": {
+      "read": {
+        "table": "law.administrative_codes",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Complex SQL queries require an RPC function 'execute_sql' to be defined in the database. Please create this function or use the standard CRUD methods (get, insert, update, delete)."
+      },
+      "write": {
+        "table": "law.administrative_codes",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": null,
+        "error": "Skipped - protected reference table"
+      }
+    },
+    "court_rules": {
+      "read": {
+        "table": "law.court_rules",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "law.court_rules",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": null,
+        "error": "Skipped - protected reference table"
+      }
+    }
+  },
+  "graph_schema": {
+    "documents": {
+      "read": {
+        "table": "graph.documents",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.documents",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "6e348b17-0a19-4802-923c-8667411354ab",
+        "error": null
+      }
+    },
+    "document_registry": {
+      "read": {
+        "table": "graph.document_registry",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.document_registry",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "8bb64a02-e340-418d-b800-914c8240af61",
+        "error": "Could not prepare test data for table"
+      }
+    },
+    "entities": {
+      "read": {
+        "table": "graph.entities",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.entities",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "f8850acd-bf47-41ec-ae68-e3f221d8c6c4",
+        "error": null
+      }
+    },
+    "entity_mentions": {
+      "read": {
+        "table": "graph.entity_mentions",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.entity_mentions",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "9a8afcd6-c8c4-4368-8da0-12af1cae1867",
+        "error": "Could not prepare test data for table"
+      }
+    },
+    "relationships": {
+      "read": {
+        "table": "graph.relationships",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.relationships",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "f2774fc0-be59-4074-9889-87df2d716e29",
+        "error": "Could not prepare test data for table"
+      }
+    },
+    "chunks": {
+      "read": {
+        "table": "graph.chunks",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.chunks",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "ed99ca7e-f3c4-4f7a-ade4-b0be014f182d",
+        "error": null
+      }
+    },
+    "communities": {
+      "read": {
+        "table": "graph.communities",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.communities",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "0e429995-2c19-4056-85f9-1bd5bf28a492",
+        "error": "Could not prepare test data for table"
+      }
+    },
+    "community_members": {
+      "read": {
+        "table": "graph.community_members",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.community_members",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "6911e198-fbaa-4550-b9f6-d81775f48104",
+        "error": "Could not prepare test data for table"
+      }
+    },
+    "legal_provisions": {
+      "read": {
+        "table": "graph.legal_provisions",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.legal_provisions",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "13f0b640-bbad-4834-a940-cd7c75bb1635",
+        "error": "Could not prepare test data for table"
+      }
+    },
+    "provision_relationships": {
+      "read": {
+        "table": "graph.provision_relationships",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.provision_relationships",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "5f7476b8-4306-47d3-956f-22eeef0db909",
+        "error": "Could not prepare test data for table"
+      }
+    },
+    "citation_graph": {
+      "read": {
+        "table": "graph.citation_graph",
+        "read_access": false,
+        "row_count": 0,
+        "sample_data": null,
+        "error": "Circuit breaker open for operation: execute_raw_sql"
+      },
+      "write": {
+        "table": "graph.citation_graph",
+        "insert_access": false,
+        "update_access": false,
+        "delete_access": false,
+        "test_id": "6f89d225-45d6-4d5e-a187-7ed556d38f76",
+        "error": "Could not prepare test data for table"
+      }
+    }
+  },
+  "client_schema": {},
+  "dual_client_tests": {
+    "anon_client": {
+      "table": "graph.entities",
+      "read_access": false,
+      "row_count": 0,
+      "sample_data": null,
+      "error": "Circuit breaker open for operation: execute_raw_sql"
+    },
+    "service_client": {},
+    "differences": []
+  },
+  "errors": [
+    "Client table discovery: Circuit breaker open for operation: execute_raw_sql"
+  ],
+  "summary": {
+    "total_tables_tested": 17,
+    "successful_reads": 0,
+    "successful_writes": 0,
+    "failed_operations": 17,
+    "total_rows_found": 0,
+    "schemas_tested": [
+      "law",
+      "graph",
+      "client"
+    ],
+    "dual_client_working": true
+  }
+}

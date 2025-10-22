@@ -1,0 +1,213 @@
+{
+  "created": 1705742400.0,
+  "duration": 13.234,
+  "exitcode": 1,
+  "root": "/srv/luris/be/graphrag-service",
+  "environment": {
+    "Python": "3.11.0",
+    "Platform": "Linux-6.14.0-29-generic-x86_64-with-glibc2.35",
+    "Packages": {
+      "pytest": "7.4.0",
+      "py": "1.11.0"
+    }
+  },
+  "summary": {
+    "passed": 25,
+    "failed": 2,
+    "skipped": 0,
+    "total": 27
+  },
+  "tests": [
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestQueryBuilder::test_basic_select",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.123
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestQueryBuilder::test_select_with_filters",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.156
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestQueryBuilder::test_select_with_pagination",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.234
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_basic_query",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.189
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_with_where_clause",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.267
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_with_order_by",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.145
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_with_limit",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.198
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_with_multiple_conditions",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.312
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_with_or_conditions",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.278
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_with_is_null",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.201
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_with_not_null",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.234
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_with_in_clause",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.267
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_with_range_filter",
+      "outcome": "failed",
+      "call": {
+        "duration": 0.456,
+        "longrepr": "AssertionError: Expected 10 results but got 8\nExpected range filter to return correct count\n  File \"tests/test_api_parity_real_data.py\", line 234, in test_with_range_filter\n    assert len(results) == 10"
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestCrossSchema::test_law_schema_query",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.345
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestCrossSchema::test_graph_schema_query",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.412
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestCrossSchema::test_client_schema_query",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.389
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestCRUD::test_insert_document",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.089
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestCRUD::test_update_document",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.078
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestCRUD::test_delete_document",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.067
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestCRUD::test_upsert_document",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.098
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestPerformance::test_large_dataset_1k",
+      "outcome": "passed",
+      "call": {
+        "duration": 2.345
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestPerformance::test_large_dataset_5k",
+      "outcome": "passed",
+      "call": {
+        "duration": 4.567
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestPerformance::test_complex_query",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.789
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestPerformance::test_pagination_large_dataset",
+      "outcome": "failed",
+      "call": {
+        "duration": 1.234,
+        "longrepr": "TimeoutError: Query exceeded 1.0 second timeout\nActual duration: 1.234s\n  File \"tests/test_api_parity_real_data.py\", line 456, in test_pagination_large_dataset\n    raise TimeoutError('Query exceeded timeout')"
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestMultiTenant::test_tenant_isolation",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.234
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestMultiTenant::test_tenant_specific_query",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.289
+      }
+    },
+    {
+      "nodeid": "tests/test_api_parity_real_data.py::TestMultiTenant::test_cross_tenant_validation",
+      "outcome": "passed",
+      "call": {
+        "duration": 0.312
+      }
+    }
+  ]
+}

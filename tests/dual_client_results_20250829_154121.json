@@ -1,0 +1,95 @@
+{
+  "timestamp": "2025-08-29T15:41:17.961891",
+  "client_comparison": {
+    "law_documents": {
+      "table": "law_documents",
+      "anon_access": {
+        "accessible": true,
+        "row_count": 2,
+        "error": null
+      },
+      "service_access": {
+        "accessible": true,
+        "row_count": 2,
+        "error": null
+      },
+      "differences": []
+    },
+    "graph_entities": {
+      "table": "graph_entities",
+      "anon_access": {
+        "accessible": true,
+        "row_count": 2,
+        "error": null
+      },
+      "service_access": {
+        "accessible": true,
+        "row_count": 2,
+        "error": null
+      },
+      "differences": []
+    },
+    "graph_document_registry": {
+      "table": "graph_document_registry",
+      "anon_access": {
+        "accessible": true,
+        "row_count": 2,
+        "error": null
+      },
+      "service_access": {
+        "accessible": true,
+        "row_count": 2,
+        "error": null
+      },
+      "differences": []
+    },
+    "client_documents": {
+      "table": "client_documents",
+      "anon_access": {
+        "accessible": true,
+        "row_count": 2,
+        "error": null
+      },
+      "service_access": {
+        "accessible": true,
+        "row_count": 2,
+        "error": null
+      },
+      "differences": []
+    }
+  },
+  "discovered_tables": {
+    "law": [
+      "documents",
+      "citations"
+    ],
+    "graph": [
+      "entities",
+      "relationships",
+      "communities",
+      "document_registry"
+    ],
+    "client": [
+      "documents"
+    ]
+  },
+  "permission_differences": [],
+  "summary": {
+    "dual_client_configured": false,
+    "tables_tested": 4,
+    "permission_differences_found": 0,
+    "law_tables_discovered": 2,
+    "graph_tables_discovered": 4,
+    "client_tables_discovered": 1
+  },
+  "permission_tests": {
+    "anon_insert": false,
+    "service_insert": false,
+    "auth_users_anon": false,
+    "auth_users_service": false,
+    "auth_audit_anon": false,
+    "auth_audit_service": false,
+    "storage_objects_anon": false,
+    "storage_objects_service": false
+  }
+}

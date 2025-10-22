@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-08-29T16:32:36.094352",
+  "database": "db.tqfshsnwyhfnkchaiudg.supabase.co",
+  "total_files": 6,
+  "files_processed": 0,
+  "statements_executed": 0,
+  "statements_failed": 0,
+  "results": [],
+  "errors": [
+    "Connection failed: connection to server at \"db.tqfshsnwyhfnkchaiudg.supabase.co\" (2600:1f1c:f9:4d0c:31bc:8456:c112:6e88), port 5432 failed: Network is unreachable\n\tIs the server running on that host and accepting TCP/IP connections?\n"
+  ]
+}

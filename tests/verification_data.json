@@ -1,0 +1,246 @@
+{
+  "summary": {
+    "total_tests": 27,
+    "passed": 25,
+    "failed": 2,
+    "skipped": 0,
+    "total_duration": 14.308,
+    "pass_rate": 92.5925925925926
+  },
+  "categories": {
+    "QueryBuilder Tests": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "total": 3,
+      "duration": 0.513
+    },
+    "SelectQueryBuilder Tests": {
+      "passed": 9,
+      "failed": 1,
+      "skipped": 0,
+      "total": 10,
+      "duration": 2.547
+    },
+    "Cross-Schema Tests": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "total": 3,
+      "duration": 1.146
+    },
+    "CRUD Validation": {
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "total": 4,
+      "duration": 0.33199999999999996
+    },
+    "Performance Tests": {
+      "passed": 3,
+      "failed": 1,
+      "skipped": 0,
+      "total": 4,
+      "duration": 8.935
+    },
+    "Multi-Tenant Tests": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "total": 3,
+      "duration": 0.835
+    }
+  },
+  "tests": [
+    {
+      "name": "test_basic_select",
+      "category": "QueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.123,
+      "error": null
+    },
+    {
+      "name": "test_select_with_filters",
+      "category": "QueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.156,
+      "error": null
+    },
+    {
+      "name": "test_select_with_pagination",
+      "category": "QueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.234,
+      "error": null
+    },
+    {
+      "name": "test_basic_query",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.189,
+      "error": null
+    },
+    {
+      "name": "test_with_where_clause",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.267,
+      "error": null
+    },
+    {
+      "name": "test_with_order_by",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.145,
+      "error": null
+    },
+    {
+      "name": "test_with_limit",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.198,
+      "error": null
+    },
+    {
+      "name": "test_with_multiple_conditions",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.312,
+      "error": null
+    },
+    {
+      "name": "test_with_or_conditions",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.278,
+      "error": null
+    },
+    {
+      "name": "test_with_is_null",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.201,
+      "error": null
+    },
+    {
+      "name": "test_with_not_null",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.234,
+      "error": null
+    },
+    {
+      "name": "test_with_in_clause",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "passed",
+      "duration": 0.267,
+      "error": null
+    },
+    {
+      "name": "test_with_range_filter",
+      "category": "SelectQueryBuilder Tests",
+      "outcome": "failed",
+      "duration": 0.456,
+      "error": "assert len(results) == 10"
+    },
+    {
+      "name": "test_law_schema_query",
+      "category": "Cross-Schema Tests",
+      "outcome": "passed",
+      "duration": 0.345,
+      "error": null
+    },
+    {
+      "name": "test_graph_schema_query",
+      "category": "Cross-Schema Tests",
+      "outcome": "passed",
+      "duration": 0.412,
+      "error": null
+    },
+    {
+      "name": "test_client_schema_query",
+      "category": "Cross-Schema Tests",
+      "outcome": "passed",
+      "duration": 0.389,
+      "error": null
+    },
+    {
+      "name": "test_insert_document",
+      "category": "CRUD Validation",
+      "outcome": "passed",
+      "duration": 0.089,
+      "error": null
+    },
+    {
+      "name": "test_update_document",
+      "category": "CRUD Validation",
+      "outcome": "passed",
+      "duration": 0.078,
+      "error": null
+    },
+    {
+      "name": "test_delete_document",
+      "category": "CRUD Validation",
+      "outcome": "passed",
+      "duration": 0.067,
+      "error": null
+    },
+    {
+      "name": "test_upsert_document",
+      "category": "CRUD Validation",
+      "outcome": "passed",
+      "duration": 0.098,
+      "error": null
+    },
+    {
+      "name": "test_large_dataset_1k",
+      "category": "Performance Tests",
+      "outcome": "passed",
+      "duration": 2.345,
+      "error": null
+    },
+    {
+      "name": "test_large_dataset_5k",
+      "category": "Performance Tests",
+      "outcome": "passed",
+      "duration": 4.567,
+      "error": null
+    },
+    {
+      "name": "test_complex_query",
+      "category": "Performance Tests",
+      "outcome": "passed",
+      "duration": 0.789,
+      "error": null
+    },
+    {
+      "name": "test_pagination_large_dataset",
+      "category": "Performance Tests",
+      "outcome": "failed",
+      "duration": 1.234,
+      "error": "raise TimeoutError('Query exceeded timeout')"
+    },
+    {
+      "name": "test_tenant_isolation",
+      "category": "Multi-Tenant Tests",
+      "outcome": "passed",
+      "duration": 0.234,
+      "error": null
+    },
+    {
+      "name": "test_tenant_specific_query",
+      "category": "Multi-Tenant Tests",
+      "outcome": "passed",
+      "duration": 0.289,
+      "error": null
+    },
+    {
+      "name": "test_cross_tenant_validation",
+      "category": "Multi-Tenant Tests",
+      "outcome": "passed",
+      "duration": 0.312,
+      "error": null
+    }
+  ],
+  "generated_at": "2025-10-20T17:22:43.399972"
+}

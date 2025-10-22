@@ -1,0 +1,558 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-8.4.1, pluggy-1.6.0 -- /srv/luris/be/graphrag-service/venv/bin/python
+cachedir: .pytest_cache
+metadata: {'Python': '3.12.3', 'Platform': 'Linux-6.14.0-29-generic-x86_64-with-glibc2.39', 'Packages': {'pytest': '8.4.1', 'pluggy': '1.6.0'}, 'Plugins': {'asyncio': '1.1.0', 'Faker': '37.11.0', 'metadata': '3.1.1', 'anyio': '4.10.0', 'json-report': '1.5.0', 'cov': '6.2.1'}}
+rootdir: /srv/luris/be/graphrag-service
+plugins: asyncio-1.1.0, Faker-37.11.0, metadata-3.1.1, anyio-4.10.0, json-report-1.5.0, cov-6.2.1
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collecting ... collected 31 items
+
+tests/test_api_parity_real_data.py::TestQueryBuilder::test_query_builder_schema_selection ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+PASSED
+tests/test_api_parity_real_data.py::TestQueryBuilder::test_query_builder_all_schemas ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+PASSED
+tests/test_api_parity_real_data.py::TestQueryBuilder::test_query_builder_method_chaining ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_law_documents ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+✅ Retrieved 100 law documents in 0.162s
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_with_eq_filter ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+✅ Found 50 agreement entities (filtered with .eq())
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_with_limit ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+✅ LIMIT modifier working correctly for values: [10, 50, 100, 500]
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_count_query ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+✅ Counted 59,919 law entities (using count='exact')
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_null_checks ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+✅ Found 10 documents with NULL processing_status
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_order_by ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+✅ ORDER BY working correctly (asc & desc)
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_pagination_large_dataset ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+✅ Pagination working correctly: 3,000 unique records across 3 pages
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_complex_filters ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+✅ Complex filters working: 100 entities match all conditions
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_with_range_modifier ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+✅ range() modifier working: retrieved exactly 100 records
+PASSED
+tests/test_api_parity_real_data.py::TestSelectQueryBuilder::test_select_single_record ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+✅ single() modifier working: retrieved single record as dict
+PASSED
+tests/test_api_parity_real_data.py::TestCrossSchemaOperations::test_cross_schema_law_graph ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+✅ Cross-schema query: 10 law docs + 10 graph nodes
+PASSED
+tests/test_api_parity_real_data.py::TestCrossSchemaOperations::test_multi_schema_data_retrieval ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+[DEBUG] Converting 'client.cases' → 'client_cases' (dot to underscore)
+✅ Successfully queried schemas: law, graph, client
+PASSED
+tests/test_api_parity_real_data.py::TestCrossSchemaOperations::test_schema_switching ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+✅ Schema switching working correctly (law→graph→law)
+PASSED
+tests/test_api_parity_real_data.py::TestCRUDBuilders::test_insert_builder_structure ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+✅ InsertQueryBuilder structure validated (no execution)
+PASSED
+tests/test_api_parity_real_data.py::TestCRUDBuilders::test_update_builder_structure ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+✅ UpdateQueryBuilder structure validated (no execution)
+PASSED
+tests/test_api_parity_real_data.py::TestCRUDBuilders::test_delete_builder_structure ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+✅ DeleteQueryBuilder structure validated (no execution)
+PASSED
+tests/test_api_parity_real_data.py::TestCRUDBuilders::test_upsert_builder_structure ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+✅ UpsertQueryBuilder structure validated (no execution)
+PASSED
+tests/test_api_parity_real_data.py::TestPerformanceAndSafety::test_large_result_set_performance ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+✅ Retrieved 1,000 records in 0.199s (5030 records/sec)
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+✅ Retrieved 2,500 records in 0.106s (23556 records/sec)
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+✅ Retrieved 5,000 records in 0.125s (40145 records/sec)
+PASSED
+tests/test_api_parity_real_data.py::TestPerformanceAndSafety::test_pagination_efficiency ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+✅ Pagination efficiency: LIMIT=0.156s, range()=0.067s
+PASSED
+tests/test_api_parity_real_data.py::TestPerformanceAndSafety::test_safe_limit_enforcement ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+✅ LIMIT enforcement working: requested 100, got 100
+PASSED
+tests/test_api_parity_real_data.py::TestPerformanceAndSafety::test_count_performance ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+✅ COUNT(law.entities): 59,919 records in 1.454s
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+✅ COUNT(graph.nodes): 141,000 records in 3.069s
+PASSED
+tests/test_api_parity_real_data.py::TestMultiTenantIsolation::test_law_schema_no_client_id ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+✅ Law schema accessible without client_id (reference data)
+PASSED
+tests/test_api_parity_real_data.py::TestMultiTenantIsolation::test_client_schema_structure ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'client.cases' → 'client_cases' (dot to underscore)
+✅ Client schema has multi-tenant structure (case_id present)
+PASSED
+tests/test_api_parity_real_data.py::TestMultiTenantIsolation::test_graph_schema_data_access ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+✅ Graph schema accessible (note: synthetic test data)
+PASSED
+tests/test_api_parity_real_data.py::TestDataQuality::test_law_entity_types_coverage ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+✅ Found 3 unique entity types in law schema
+PASSED
+tests/test_api_parity_real_data.py::TestDataQuality::test_graph_structure_integrity ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'graph.nodes' → 'graph_nodes' (dot to underscore)
+[DEBUG] Converting 'graph.edges' → 'graph_edges' (dot to underscore)
+[DEBUG] Converting 'graph.communities' → 'graph_communities' (dot to underscore)
+✅ Graph structure intact: 100 nodes, 100 edges, 50 communities
+PASSED
+tests/test_api_parity_real_data.py::TestDataQuality::test_timestamp_fields_validity ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+✅ Validated 50 timestamp fields
+PASSED
+tests/test_api_parity_real_data.py::TestAllFilterMethods::test_all_filter_methods ✅ SupabaseSettings validated:
+   URL: https://tqfshsnwyhfnkchaiudg.supabase.co
+   API Key: eyJhbGciOiJIUzI1NiIs...
+   Service Key: eyJhbGciOiJIUzI1NiIs...
+   Environment: production
+🔧 Creating anon client...
+✅ Anon client created successfully
+🔧 Creating service_role client...
+✅ Service client created successfully
+✅ SupabaseClient initialized for api-parity-tests
+   Anon client: OK
+   Service client: OK
+   Primary: service_role key
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+[DEBUG] Converting 'law.documents' → 'law_documents' (dot to underscore)
+[DEBUG] Converting 'law.entities' → 'law_entities' (dot to underscore)
+✅ All filter methods tested: {'eq': 5, 'neq': 5, 'gt': 5, 'gte': 5, 'lt': 5, 'lte': 5, 'like': 5, 'ilike': 5, 'is_': 5, 'in_': 5}
+PASSED
+================================================================================
+API PARITY TEST SUITE SUMMARY
+================================================================================
+Test Categories:
+  1. QueryBuilder Base Class     - 3 tests
+  2. SelectQueryBuilder         - 10 tests
+  3. Cross-Schema Operations    - 3 tests
+  4. CRUD Builders             - 4 tests
+  5. Performance & Safety       - 4 tests
+  6. Multi-Tenant Isolation     - 3 tests
+  7. Data Quality Validation    - 3 tests
+  8. All Filter Methods         - 1 test
+================================================================================
+Total Tests: 31
+Data Sources:
+  - Law Schema: 15,001 documents, 59,919 entities
+  - Graph Schema: 141,000 nodes, 81,974 edges
+  - Client Schema: 50 cases (limited data)
+================================================================================
+
+
+=============================== warnings summary ===============================
+tests/test_api_parity_real_data.py: 25 warnings
+  /srv/luris/be/graphrag-service/venv/lib/python3.12/site-packages/supabase/_sync/client.py:303: DeprecationWarning: The 'timeout' parameter is deprecated. Please configure it in the http client instead.
+    return SyncPostgrestClient(
+
+tests/test_api_parity_real_data.py: 25 warnings
+  /srv/luris/be/graphrag-service/venv/lib/python3.12/site-packages/supabase/_sync/client.py:303: DeprecationWarning: The 'verify' parameter is deprecated. Please configure it in the http client instead.
+    return SyncPostgrestClient(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 31 passed, 50 warnings in 15.18s =======================

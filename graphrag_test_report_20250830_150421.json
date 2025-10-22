@@ -1,0 +1,295 @@
+{
+  "summary": {
+    "total_tests": 11,
+    "successful": 5,
+    "failed": 6,
+    "errors": 0,
+    "success_rate": 45.45454545454545,
+    "avg_response_time_ms": 258.77
+  },
+  "results": [
+    {
+      "test_name": "Health Ping",
+      "endpoint": "/health/ping",
+      "method": "GET",
+      "status": "success",
+      "response_time": 190.1838779449463,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "status": "healthy",
+        "service": "graphrag-service",
+        "version": "1.0.0",
+        "dependencies": {
+          "supabase": "healthy",
+          "prompt_service": "unhealthy: All connection attempts failed"
+        },
+        "metrics": {
+          "uptime_seconds": 0,
+          "environment": "production"
+        },
+        "graph_stats": null
+      }
+    },
+    {
+      "test_name": "Health Metrics",
+      "endpoint": "/health/metrics",
+      "method": "GET",
+      "status": "success",
+      "response_time": 159.15513038635254,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "service": "graphrag-service",
+        "timestamp": "2025-08-30T21:04:20.321584",
+        "system_metrics": {
+          "cpu_percent": 0.0,
+          "memory_mb": 193.5859375,
+          "memory_percent": 0.050078285846891994,
+          "num_threads": 133,
+          "num_connections": 3
+        },
+        "processing_metrics": {
+          "graphs_created": 0,
+          "total_entities_processed": 0,
+          "total_relationships_discovered": 0,
+          "total_communities_detected": 0,
+          "average_processing_time": 0,
+          "error_rate": 0
+        },
+        "config_metrics": {
+          "entity_similarity_threshold": 0.85,
+          "leiden_resolution": 1.0,
+          "min_community_size": 3,
+          "max_community_size": 50,
+          "batch_size": 100
+        },
+        "status": "operational"
+      }
+    },
+    {
+      "test_name": "Create Simple Graph",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "success",
+      "response_time": 314.40067291259766,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "success": true,
+        "graph_id": "graph_test_doc_001_1756587860",
+        "document_id": "test_doc_001",
+        "graph_summary": {
+          "nodes_created": 2,
+          "edges_created": 1,
+          "communities_detected": 0,
+          "deduplication_rate": 0.0,
+          "graph_density": 1.0,
+          "processing_time_seconds": 0.30712270736694336
+        },
+        "quality_metrics": {
+          "graph_completeness": 1.0,
+          "community_coherence": 0.0,
+          "entity_confidence_avg": 0.925,
+          "relationship_confidence_avg": 0.85,
+          "coverage_score": 0.0,
+          "warnings": [
+            "Low community coverage - many isolated entities"
+          ],
+          "suggestions": [
+            "Graph has fewer relationships than entities - consider relationship inference"
+          ]
+        },
+        "communities": [],
+        "analytics": {
+          "top_entities": [
+            {
+              "entity_id": "ent_001",
+              "degree_centrality": 1.0,
+              "pagerank": 0.5,
+              "betweenness": 0.0,
+              "entity_text": "Supreme Court",
+              "entity_type": "COURT"
+            },
+            {
+              "entity_id": "ent_002",
+              "degree_centrality": 1.0,
+              "pagerank": 0.5,
+              "betweenness": 0.0,
+              "entity_text": "John Doe",
+              "entity_type": "PARTY"
+            }
+          ],
+          "relationship_types": {
+            "DECIDED_CASE": 1
+          },
+          "cross_document_connections": 0,
+          "entity_type_distribution": {
+            "COURT": 1,
+            "PARTY": 1
+          },
+          "average_degree": 0.0,
+          "clustering_coefficient": 0.0,
+          "legal_metrics": null,
+          "temporal_analysis": null
+        },
+        "deduplication": {
+          "original_count": 2,
+          "deduplicated_count": 2,
+          "merge_operations": 0,
+          "merged_entities": [],
+          "canonical_mappings": {}
+        },
+        "storage_info": {
+          "entities_stored": 0,
+          "relationships_stored": 0,
+          "communities_stored": 0,
+          "errors": [
+            "{'message': \"Could not find the 'attributes' column of 'graph_nodes' in the schema cache\", 'code': 'PGRST204', 'hint': None, 'details': None}"
+          ]
+        },
+        "processing_metadata": {
+          "timestamp": "2025-08-30T21:04:20.635802",
+          "processing_time": 0.30712270736694336,
+          "options_used": {
+            "enable_deduplication": true,
+            "enable_community_detection": true,
+            "enable_cross_document_linking": true,
+            "enable_analytics": true,
+            "similarity_threshold": null,
+            "leiden_resolution": 1.0,
+            "min_community_size": 2,
+            "focus_entity_types": null,
+            "exclude_entity_types": null,
+            "use_ai_summaries": false,
+            "batch_mode": false
+          }
+        },
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "test_name": "Create Complex Graph",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 15.696048736572266,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: 'NoneType' object has no attribute 'copy'"
+      }
+    },
+    {
+      "test_name": "Query Graph Entities",
+      "endpoint": "/graph/query",
+      "method": "POST",
+      "status": "success",
+      "response_time": 6.013154983520508,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "query_type": "entities",
+        "result_count": 0,
+        "entities": [],
+        "relationships": [],
+        "communities": [],
+        "analytics": null,
+        "graph_context": null,
+        "query_metadata": {
+          "execution_time": 0.1,
+          "filters_applied": {
+            "entity_types": null,
+            "document_ids": null
+          }
+        }
+      }
+    },
+    {
+      "test_name": "Graph Statistics",
+      "endpoint": "/graph/stats",
+      "method": "GET",
+      "status": "success",
+      "response_time": 287.07170486450195,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "statistics": {
+          "total_entities": 1,
+          "total_relationships": 1,
+          "total_communities": 1,
+          "total_documents": 1
+        },
+        "graph_info": {
+          "methodology": "Microsoft GraphRAG",
+          "entity_deduplication_threshold": 0.85,
+          "leiden_resolution": 1.0,
+          "min_community_size": 3
+        },
+        "timestamp": "2025-08-30T21:04:20.944962"
+      }
+    },
+    {
+      "test_name": "Performance Test 2",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 341.47000312805176,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    },
+    {
+      "test_name": "Performance Test 1",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 342.1177864074707,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    },
+    {
+      "test_name": "Performance Test 0",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 396.8627452850342,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    },
+    {
+      "test_name": "Performance Test 3",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 396.1622714996338,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    },
+    {
+      "test_name": "Performance Test 4",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 397.3040580749512,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    }
+  ],
+  "timestamp": "2025-08-30T15:04:21.346806"
+}

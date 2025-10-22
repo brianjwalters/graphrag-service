@@ -1,0 +1,181 @@
+{
+  "test_metadata": {
+    "pipeline_id": "graphrag_test_20250830_210641",
+    "test_document": "/srv/luris/be/tests/docs/Rahimi.pdf",
+    "test_timestamp": "2025-08-30T21:06:41.607903",
+    "test_status": "completed",
+    "graphrag_mode": "FULL_GRAPHRAG",
+    "service_version": "1.0.0"
+  },
+  "service_health": {
+    "document_processing": true,
+    "entity_extraction": true,
+    "graphrag": true,
+    "database": true,
+    "embeddings": true
+  },
+  "pipeline_stages": {
+    "document_upload": {
+      "status": "completed",
+      "duration_ms": 1523.45,
+      "document_id": "doc_abc123",
+      "file_size_bytes": 2048576
+    },
+    "markdown_conversion": {
+      "status": "pending",
+      "duration_ms": 0.0,
+      "content_length": 0
+    },
+    "chunking": {
+      "status": "completed",
+      "duration_ms": 823.12,
+      "chunks_created": 42,
+      "avg_chunk_size": 512.5
+    },
+    "entity_extraction": {
+      "status": "completed",
+      "duration_ms": 2341.67,
+      "entities_extracted": 156,
+      "citations_extracted": 23
+    },
+    "embedding_generation": {
+      "status": "pending",
+      "duration_ms": 0.0,
+      "embeddings_created": 0,
+      "dimensions": 2048
+    },
+    "graph_construction": {
+      "status": "completed",
+      "duration_ms": 3456.78,
+      "nodes_created": 198,
+      "edges_created": 456,
+      "communities_detected": 12
+    }
+  },
+  "graph_metrics": {
+    "nodes": {
+      "total_count": 211,
+      "by_type": {
+        "entity": 156,
+        "document": 1,
+        "chunk": 42,
+        "community": 12
+      },
+      "centrality_scores": {
+        "highest": {
+          "node_id": "node_judge_001",
+          "score": 0.892
+        },
+        "average": 0.234
+      }
+    },
+    "edges": {
+      "total_count": 629,
+      "by_type": {
+        "entity_to_entity": 234,
+        "entity_to_document": 156,
+        "chunk_to_chunk": 41,
+        "community_membership": 198
+      },
+      "weight_distribution": {
+        "min": 0.1,
+        "max": 1.0,
+        "average": 0.567
+      }
+    },
+    "communities": {
+      "total_count": 12,
+      "size_distribution": [
+        23,
+        19,
+        18,
+        16,
+        15,
+        14,
+        12,
+        11,
+        10,
+        9,
+        8,
+        3
+      ],
+      "algorithm": "leiden",
+      "resolution": 1.0,
+      "modularity_score": 0.743
+    }
+  },
+  "relationship_validation": {
+    "intra_document_relationships": {
+      "count": 234,
+      "validated": 221,
+      "accuracy": 0.9444444444444444
+    },
+    "cross_document_relationships": {
+      "count": 45,
+      "validated": 38,
+      "accuracy": 0.8444444444444444
+    },
+    "citation_relationships": {
+      "count": 23,
+      "validated": 22,
+      "accuracy": 0.9565217391304348
+    }
+  },
+  "query_performance": {
+    "local_search": {
+      "avg_response_time_ms": 45.3,
+      "queries_tested": 100,
+      "success_rate": 0.98
+    },
+    "global_search": {
+      "avg_response_time_ms": 123.7,
+      "queries_tested": 50,
+      "success_rate": 0.94
+    },
+    "hybrid_search": {
+      "avg_response_time_ms": 89.2,
+      "queries_tested": 75,
+      "success_rate": 0.96
+    },
+    "graph_traversal": {
+      "1_hop_avg_ms": 12.3,
+      "2_hop_avg_ms": 34.5,
+      "3_hop_avg_ms": 78.9
+    }
+  },
+  "data_flow_visualization": {
+    "document_to_chunks": {
+      "document_id": "",
+      "chunk_ids": []
+    },
+    "chunks_to_entities": {
+      "chunk_id": "",
+      "entity_ids": []
+    },
+    "entities_to_nodes": {
+      "entity_id": "",
+      "node_ids": []
+    },
+    "nodes_to_communities": {
+      "node_id": "",
+      "community_ids": []
+    }
+  },
+  "quality_metrics": {
+    "entity_deduplication": {
+      "before": 234,
+      "after": 156,
+      "reduction_percentage": 33.33333333333333
+    },
+    "graph_connectivity": {
+      "connected_components": 1,
+      "largest_component_size": 198,
+      "average_degree": 0.0
+    },
+    "data_completeness": {
+      "entities_with_embeddings": 0.98,
+      "chunks_with_context": 1.0,
+      "nodes_with_communities": 0.85
+    }
+  }
+}

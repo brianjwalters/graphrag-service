@@ -1,0 +1,363 @@
+{
+  "schemas": [
+    {
+      "table": "law_documents",
+      "accessible": true,
+      "sample_row_count": 1
+    },
+    {
+      "table": "law_chunks",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.law_chunks\" does not exist', 'code': '42P01', 'hint': None, 'details':"
+    },
+    {
+      "table": "law_citations",
+      "accessible": true,
+      "sample_row_count": 0
+    },
+    {
+      "table": "law_embeddings",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.law_embeddings\" does not exist', 'code': '42P01', 'hint': None, 'detai"
+    },
+    {
+      "table": "client_documents",
+      "accessible": true,
+      "sample_row_count": 1
+    },
+    {
+      "table": "client_chunks",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.client_chunks\" does not exist', 'code': '42P01', 'hint': None, 'detail"
+    },
+    {
+      "table": "client_citations",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.client_citations\" does not exist', 'code': '42P01', 'hint': None, 'det"
+    },
+    {
+      "table": "client_embeddings",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.client_embeddings\" does not exist', 'code': '42P01', 'hint': None, 'de"
+    },
+    {
+      "table": "graph_entities",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.graph_entities\" does not exist', 'code': '42P01', 'hint': None, 'detai"
+    },
+    {
+      "table": "graph_relationships",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.graph_relationships\" does not exist', 'code': '42P01', 'hint': None, '"
+    },
+    {
+      "table": "graph_communities",
+      "accessible": true,
+      "sample_row_count": 1
+    }
+  ],
+  "accessible_tables": [
+    {
+      "pattern": "law.documents",
+      "accessible": true,
+      "rows": 1
+    },
+    {
+      "pattern": "client.documents",
+      "accessible": true,
+      "rows": 1
+    },
+    {
+      "pattern": "law_documents",
+      "accessible": true,
+      "rows": 1
+    },
+    {
+      "pattern": "client_documents",
+      "accessible": true,
+      "rows": 1
+    }
+  ],
+  "schema_qualified_access": [
+    {
+      "pattern": "law.documents",
+      "accessible": true,
+      "rows": 1
+    },
+    {
+      "pattern": "client.documents",
+      "accessible": true,
+      "rows": 1
+    },
+    {
+      "pattern": "graph.entities",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.graph_entities\" does not exist', 'code': '42P01', "
+    },
+    {
+      "pattern": "law_documents",
+      "accessible": true,
+      "rows": 1
+    },
+    {
+      "pattern": "client_documents",
+      "accessible": true,
+      "rows": 1
+    },
+    {
+      "pattern": "graph_entities",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.graph_entities\" does not exist', 'code': '42P01', "
+    },
+    {
+      "pattern": "law_vwdocuments",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.law_vwdocuments\" does not exist', 'code': '42P01',"
+    },
+    {
+      "pattern": "graph_vwentities",
+      "accessible": false,
+      "error": "{'message': 'relation \"public.graph_vwentities\" does not exist', 'code': '42P01'"
+    }
+  ],
+  "table_structures": [
+    {
+      "table": "law.documents",
+      "columns": [
+        "id",
+        "document_id",
+        "title",
+        "document_type",
+        "court_name",
+        "jurisdiction",
+        "court_level",
+        "date_filed",
+        "date_decided",
+        "docket_number",
+        "case_number",
+        "judge_name",
+        "citation",
+        "citation_components",
+        "parallel_citations",
+        "status",
+        "precedential_value",
+        "is_published",
+        "content",
+        "content_md",
+        "storage_path",
+        "file_size",
+        "mime_type",
+        "chunk_count",
+        "entity_count",
+        "citation_count",
+        "indexed_at",
+        "processing_status",
+        "metadata",
+        "processing_metadata",
+        "extraction_metadata",
+        "content_hash",
+        "created_at",
+        "updated_at"
+      ],
+      "sample_data": {
+        "id": "736e4dff-0a8b-4ca2-bee2-7d34d207808f",
+        "document_id": "law_doc_1",
+        "title": "Supreme Court Case 1: Legal Matter vs. Respondent",
+        "document_type": null,
+        "court_name": "District Court",
+        "jurisdiction": "Local",
+        "court_level": null,
+        "date_filed": "2023-10-28",
+        "date_decided": null,
+        "docket_number": null,
+        "case_number": null,
+        "judge_name": null,
+        "citation": "460 U.S. 885 (1961)",
+        "citation_components": null,
+        "parallel_citations": null,
+        "status": "active",
+        "precedential_value": null,
+        "is_published": true,
+        "content": "# Legal Document 1\n\nThis is a comprehensive legal document covering important matters of law...",
+        "content_md": "# Legal Document 1\n\nThis is a comprehensive legal document covering important matters of law...",
+        "storage_path": "/legal/documents/case_1.pdf",
+        "file_size": null,
+        "mime_type": null,
+        "chunk_count": 0,
+        "entity_count": 0,
+        "citation_count": 0,
+        "indexed_at": null,
+        "processing_status": "pending",
+        "metadata": null,
+        "processing_metadata": null,
+        "extraction_metadata": null,
+        "content_hash": null,
+        "created_at": "2025-08-30T00:12:32.33547+00:00",
+        "updated_at": "2025-08-30T00:12:32.33547+00:00"
+      }
+    },
+    {
+      "table": "client.documents",
+      "columns": [
+        "id",
+        "document_id",
+        "case_id",
+        "title",
+        "document_type",
+        "content_md",
+        "storage_path",
+        "confidentiality_level",
+        "created_at",
+        "updated_at"
+      ],
+      "sample_data": {
+        "id": "1db661c3-824a-4cb8-94aa-fe9492847df2",
+        "document_id": "client_doc_1",
+        "case_id": "23fa848f-662c-43fa-9b45-e20d96ce75e9",
+        "title": "Client Document 1",
+        "document_type": "correspondence",
+        "content_md": "# Client Document 1\n\nThis is important client documentation...",
+        "storage_path": "/client/docs/case_1.pdf",
+        "confidentiality_level": "client_confidential",
+        "created_at": "2025-08-30T00:12:32.588389+00:00",
+        "updated_at": "2025-08-30T00:12:32.588389+00:00"
+      }
+    },
+    {
+      "table": "law_documents",
+      "columns": [
+        "id",
+        "document_id",
+        "title",
+        "document_type",
+        "court_name",
+        "jurisdiction",
+        "court_level",
+        "date_filed",
+        "date_decided",
+        "docket_number",
+        "case_number",
+        "judge_name",
+        "citation",
+        "citation_components",
+        "parallel_citations",
+        "status",
+        "precedential_value",
+        "is_published",
+        "content",
+        "content_md",
+        "storage_path",
+        "file_size",
+        "mime_type",
+        "chunk_count",
+        "entity_count",
+        "citation_count",
+        "indexed_at",
+        "processing_status",
+        "metadata",
+        "processing_metadata",
+        "extraction_metadata",
+        "content_hash",
+        "created_at",
+        "updated_at"
+      ],
+      "sample_data": {
+        "id": "736e4dff-0a8b-4ca2-bee2-7d34d207808f",
+        "document_id": "law_doc_1",
+        "title": "Supreme Court Case 1: Legal Matter vs. Respondent",
+        "document_type": null,
+        "court_name": "District Court",
+        "jurisdiction": "Local",
+        "court_level": null,
+        "date_filed": "2023-10-28",
+        "date_decided": null,
+        "docket_number": null,
+        "case_number": null,
+        "judge_name": null,
+        "citation": "460 U.S. 885 (1961)",
+        "citation_components": null,
+        "parallel_citations": null,
+        "status": "active",
+        "precedential_value": null,
+        "is_published": true,
+        "content": "# Legal Document 1\n\nThis is a comprehensive legal document covering important matters of law...",
+        "content_md": "# Legal Document 1\n\nThis is a comprehensive legal document covering important matters of law...",
+        "storage_path": "/legal/documents/case_1.pdf",
+        "file_size": null,
+        "mime_type": null,
+        "chunk_count": 0,
+        "entity_count": 0,
+        "citation_count": 0,
+        "indexed_at": null,
+        "processing_status": "pending",
+        "metadata": null,
+        "processing_metadata": null,
+        "extraction_metadata": null,
+        "content_hash": null,
+        "created_at": "2025-08-30T00:12:32.33547+00:00",
+        "updated_at": "2025-08-30T00:12:32.33547+00:00"
+      }
+    },
+    {
+      "table": "client_documents",
+      "columns": [
+        "id",
+        "document_id",
+        "case_id",
+        "title",
+        "document_type",
+        "content_md",
+        "storage_path",
+        "confidentiality_level",
+        "created_at",
+        "updated_at"
+      ],
+      "sample_data": {
+        "id": "1db661c3-824a-4cb8-94aa-fe9492847df2",
+        "document_id": "client_doc_1",
+        "case_id": "23fa848f-662c-43fa-9b45-e20d96ce75e9",
+        "title": "Client Document 1",
+        "document_type": "correspondence",
+        "content_md": "# Client Document 1\n\nThis is important client documentation...",
+        "storage_path": "/client/docs/case_1.pdf",
+        "confidentiality_level": "client_confidential",
+        "created_at": "2025-08-30T00:12:32.588389+00:00",
+        "updated_at": "2025-08-30T00:12:32.588389+00:00"
+      }
+    }
+  ],
+  "client_documents_analysis": {
+    "table": "client_documents",
+    "accessible": true,
+    "row_count": 5,
+    "columns": [
+      "id",
+      "document_id",
+      "case_id",
+      "title",
+      "document_type",
+      "content_md",
+      "storage_path",
+      "confidentiality_level",
+      "created_at",
+      "updated_at"
+    ],
+    "sample": {
+      "id": "1db661c3-824a-4cb8-94aa-fe9492847df2",
+      "document_id": "client_doc_1",
+      "case_id": "23fa848f-662c-43fa-9b45-e20d96ce75e9",
+      "title": "Client Document 1",
+      "document_type": "correspondence",
+      "content_md": "# Client Document 1\n\nThis is important client documentation...",
+      "storage_path": "/client/docs/case_1.pdf",
+      "confidentiality_level": "client_confidential",
+      "created_at": "2025-08-30T00:12:32.588389+00:00",
+      "updated_at": "2025-08-30T00:12:32.588389+00:00"
+    }
+  },
+  "summary": {
+    "total_tables_tested": 8,
+    "accessible_count": 4,
+    "inaccessible_count": 4
+  }
+}

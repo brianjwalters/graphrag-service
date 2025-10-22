@@ -1,0 +1,316 @@
+{
+  "timestamp": "2025-08-29T16:16:22.027206",
+  "schemas": {
+    "law": {
+      "expected": 6,
+      "found": 6,
+      "accessible": 2,
+      "tables": {
+        "documents": {
+          "schema": "law",
+          "table": "documents",
+          "exists": true,
+          "accessible": true,
+          "row_count": 1,
+          "error": null
+        },
+        "citations": {
+          "schema": "law",
+          "table": "citations",
+          "exists": true,
+          "accessible": true,
+          "row_count": 0,
+          "error": null
+        },
+        "entities": {
+          "schema": "law",
+          "table": "entities",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.law_entities\" does not exist', 'code': '42P01', 'hint': None, 'details"
+        },
+        "entity_relationships": {
+          "schema": "law",
+          "table": "entity_relationships",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.law_entity_relationships\" does not exist', 'code': '42P01', 'hint': No"
+        },
+        "jurisdictions": {
+          "schema": "law",
+          "table": "jurisdictions",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.law_jurisdictions\" does not exist', 'code': '42P01', 'hint': None, 'de"
+        },
+        "entity_categories": {
+          "schema": "law",
+          "table": "entity_categories",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.law_entity_categories\" does not exist', 'code': '42P01', 'hint': None,"
+        }
+      }
+    },
+    "client": {
+      "expected": 4,
+      "found": 4,
+      "accessible": 1,
+      "tables": {
+        "cases": {
+          "schema": "client",
+          "table": "cases",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.client_cases\" does not exist', 'code': '42P01', 'hint': None, 'details"
+        },
+        "documents": {
+          "schema": "client",
+          "table": "documents",
+          "exists": true,
+          "accessible": true,
+          "row_count": 1,
+          "error": null
+        },
+        "parties": {
+          "schema": "client",
+          "table": "parties",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.client_parties\" does not exist', 'code': '42P01', 'hint': None, 'detai"
+        },
+        "deadlines": {
+          "schema": "client",
+          "table": "deadlines",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.client_deadlines\" does not exist', 'code': '42P01', 'hint': None, 'det"
+        }
+      }
+    },
+    "graph": {
+      "expected": 12,
+      "found": 12,
+      "accessible": 3,
+      "tables": {
+        "document_registry": {
+          "schema": "graph",
+          "table": "document_registry",
+          "exists": true,
+          "accessible": true,
+          "row_count": 1,
+          "error": null
+        },
+        "contextual_chunks": {
+          "schema": "graph",
+          "table": "contextual_chunks",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.graph_contextual_chunks\" does not exist', 'code': '42P01', 'hint': Non"
+        },
+        "embeddings": {
+          "schema": "graph",
+          "table": "embeddings",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.graph_embeddings\" does not exist', 'code': '42P01', 'hint': None, 'det"
+        },
+        "nodes": {
+          "schema": "graph",
+          "table": "nodes",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.graph_nodes\" does not exist', 'code': '42P01', 'hint': None, 'details'"
+        },
+        "edges": {
+          "schema": "graph",
+          "table": "edges",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.graph_edges\" does not exist', 'code': '42P01', 'hint': None, 'details'"
+        },
+        "communities": {
+          "schema": "graph",
+          "table": "communities",
+          "exists": true,
+          "accessible": true,
+          "row_count": 0,
+          "error": null
+        },
+        "chunk_entity_connections": {
+          "schema": "graph",
+          "table": "chunk_entity_connections",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.graph_chunk_entity_connections\" does not exist', 'code': '42P01', 'hin"
+        },
+        "chunk_cross_references": {
+          "schema": "graph",
+          "table": "chunk_cross_references",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.graph_chunk_cross_references\" does not exist', 'code': '42P01', 'hint'"
+        },
+        "node_communities": {
+          "schema": "graph",
+          "table": "node_communities",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.graph_node_communities\" does not exist', 'code': '42P01', 'hint': None"
+        },
+        "entity_mappings": {
+          "schema": "graph",
+          "table": "entity_mappings",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.graph_entity_mappings\" does not exist', 'code': '42P01', 'hint': None,"
+        },
+        "processing_status": {
+          "schema": "graph",
+          "table": "processing_status",
+          "exists": true,
+          "accessible": false,
+          "row_count": 0,
+          "error": "{'message': 'relation \"public.graph_processing_status\" does not exist', 'code': '42P01', 'hint': Non"
+        },
+        "case_analytics": {
+          "schema": "graph",
+          "table": "case_analytics",
+          "exists": true,
+          "accessible": true,
+          "row_count": 0,
+          "error": null
+        }
+      }
+    }
+  },
+  "views": {
+    "expected": 22,
+    "found": 6,
+    "views": {
+      "law_documents": {
+        "exists": true
+      },
+      "law_citations": {
+        "exists": true
+      },
+      "law_entities": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.law_entities\" does n"
+      },
+      "law_entity_relationships": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.law_entity_relations"
+      },
+      "law_jurisdictions": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.law_jurisdictions\" d"
+      },
+      "law_entity_categories": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.law_entity_categorie"
+      },
+      "client_cases": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.client_cases\" does n"
+      },
+      "client_documents": {
+        "exists": true
+      },
+      "client_parties": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.client_parties\" does"
+      },
+      "client_deadlines": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.client_deadlines\" do"
+      },
+      "graph_document_registry": {
+        "exists": true
+      },
+      "graph_contextual_chunks": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.graph_contextual_chu"
+      },
+      "graph_embeddings": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.graph_embeddings\" do"
+      },
+      "graph_nodes": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.graph_nodes\" does no"
+      },
+      "graph_edges": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.graph_edges\" does no"
+      },
+      "graph_communities": {
+        "exists": true
+      },
+      "graph_chunk_entity_connections": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.graph_chunk_entity_c"
+      },
+      "graph_chunk_cross_references": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.graph_chunk_cross_re"
+      },
+      "graph_node_communities": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.graph_node_communiti"
+      },
+      "graph_entity_mappings": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.graph_entity_mapping"
+      },
+      "graph_processing_status": {
+        "exists": false,
+        "error": "{'message': 'relation \"public.graph_processing_sta"
+      },
+      "graph_case_analytics": {
+        "exists": true
+      }
+    }
+  },
+  "summary": {
+    "total_expected_tables": 22,
+    "total_found_tables": 22,
+    "total_expected_views": 22,
+    "total_found_views": 6,
+    "missing_tables": [],
+    "missing_views": [
+      "law_entities",
+      "law_entity_relationships",
+      "law_jurisdictions",
+      "law_entity_categories",
+      "client_cases",
+      "client_parties",
+      "client_deadlines",
+      "graph_contextual_chunks",
+      "graph_embeddings",
+      "graph_nodes",
+      "graph_edges",
+      "graph_chunk_entity_connections",
+      "graph_chunk_cross_references",
+      "graph_node_communities",
+      "graph_entity_mappings",
+      "graph_processing_status"
+    ],
+    "errors": []
+  }
+}

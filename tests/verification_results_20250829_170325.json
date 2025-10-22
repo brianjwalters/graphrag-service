@@ -1,0 +1,21 @@
+{
+  "schemas": [],
+  "law_tables": [],
+  "client_tables": [],
+  "graph_tables": [],
+  "public_views": {
+    "total": 0,
+    "law": 0,
+    "client": 0,
+    "graph": 0,
+    "all_views": []
+  },
+  "vector_columns": {
+    "status": "success"
+  },
+  "table_access": {
+    "law_documents": "accessible",
+    "client_cases": "not_found",
+    "graph_entities": "accessible"
+  }
+}

@@ -1,0 +1,205 @@
+{
+  "summary": {
+    "total_tests": 11,
+    "successful": 4,
+    "failed": 7,
+    "errors": 0,
+    "success_rate": 36.36363636363637,
+    "avg_response_time_ms": 78.45
+  },
+  "results": [
+    {
+      "test_name": "Health Ping",
+      "endpoint": "/health/ping",
+      "method": "GET",
+      "status": "success",
+      "response_time": 127.64263153076172,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "status": "healthy",
+        "service": "graphrag-service",
+        "version": "1.0.0",
+        "dependencies": {
+          "supabase": "unhealthy: {'message': 'relation \"public.graph_entities\" does",
+          "prompt_service": "unhealthy: All connection attempts failed"
+        },
+        "metrics": {
+          "uptime_seconds": 0,
+          "environment": "production"
+        },
+        "graph_stats": null
+      }
+    },
+    {
+      "test_name": "Health Metrics",
+      "endpoint": "/health/metrics",
+      "method": "GET",
+      "status": "success",
+      "response_time": 158.21456909179688,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "service": "graphrag-service",
+        "timestamp": "2025-08-30T20:58:47.464450",
+        "system_metrics": {
+          "cpu_percent": 0.0,
+          "memory_mb": 194.4921875,
+          "memory_percent": 0.05031272150443425,
+          "num_threads": 133,
+          "num_connections": 3
+        },
+        "processing_metrics": {
+          "graphs_created": 0,
+          "total_entities_processed": 0,
+          "total_relationships_discovered": 0,
+          "total_communities_detected": 0,
+          "average_processing_time": 0,
+          "error_rate": 0
+        },
+        "config_metrics": {
+          "entity_similarity_threshold": 0.85,
+          "leiden_resolution": 1.0,
+          "min_community_size": 3,
+          "max_community_size": 50,
+          "batch_size": 100
+        },
+        "status": "operational"
+      }
+    },
+    {
+      "test_name": "Create Simple Graph",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 29.959917068481445,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 2 validation errors for CreateGraphResponse\ngraph_summary\n  Field required [type=missing, input_value={'success': False, 'error...': 0.027146100997924805}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing\nquality_metrics\n  Field required [type=missing, input_value={'success': False, 'error...': 0.027146100997924805}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing"
+      }
+    },
+    {
+      "test_name": "Create Complex Graph",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 13.142824172973633,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 2 validation errors for CreateGraphResponse\ngraph_summary\n  Field required [type=missing, input_value={'success': False, 'error...': 0.009607553482055664}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing\nquality_metrics\n  Field required [type=missing, input_value={'success': False, 'error...': 0.009607553482055664}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing"
+      }
+    },
+    {
+      "test_name": "Query Graph Entities",
+      "endpoint": "/graph/query",
+      "method": "POST",
+      "status": "success",
+      "response_time": 2.4080276489257812,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "query_type": "entities",
+        "result_count": 0,
+        "entities": [],
+        "relationships": [],
+        "communities": [],
+        "analytics": null,
+        "graph_context": null,
+        "query_metadata": {
+          "execution_time": 0.1,
+          "filters_applied": {
+            "entity_types": null,
+            "document_ids": null
+          }
+        }
+      }
+    },
+    {
+      "test_name": "Graph Statistics",
+      "endpoint": "/graph/stats",
+      "method": "GET",
+      "status": "success",
+      "response_time": 282.9263210296631,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "statistics": {
+          "total_entities": 1,
+          "total_relationships": 1,
+          "total_communities": 1,
+          "total_documents": 1
+        },
+        "graph_info": {
+          "methodology": "Microsoft GraphRAG",
+          "entity_deduplication_threshold": 0.85,
+          "leiden_resolution": 1.0,
+          "min_community_size": 3
+        },
+        "timestamp": "2025-08-30T20:58:47.793731"
+      }
+    },
+    {
+      "test_name": "Performance Test 0",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 28.81765365600586,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 2 validation errors for CreateGraphResponse\ngraph_summary\n  Field required [type=missing, input_value={'success': False, 'error...me': 0.0234835147857666}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing\nquality_metrics\n  Field required [type=missing, input_value={'success': False, 'error...me': 0.0234835147857666}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing"
+      }
+    },
+    {
+      "test_name": "Performance Test 1",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 53.487539291381836,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 2 validation errors for CreateGraphResponse\ngraph_summary\n  Field required [type=missing, input_value={'success': False, 'error...me': 0.0431981086730957}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing\nquality_metrics\n  Field required [type=missing, input_value={'success': False, 'error...me': 0.0431981086730957}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing"
+      }
+    },
+    {
+      "test_name": "Performance Test 3",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 53.85899543762207,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 2 validation errors for CreateGraphResponse\ngraph_summary\n  Field required [type=missing, input_value={'success': False, 'error...me': 0.0431666374206543}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing\nquality_metrics\n  Field required [type=missing, input_value={'success': False, 'error...me': 0.0431666374206543}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing"
+      }
+    },
+    {
+      "test_name": "Performance Test 4",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 55.23514747619629,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 2 validation errors for CreateGraphResponse\ngraph_summary\n  Field required [type=missing, input_value={'success': False, 'error...e': 0.04427051544189453}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing\nquality_metrics\n  Field required [type=missing, input_value={'success': False, 'error...e': 0.04427051544189453}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing"
+      }
+    },
+    {
+      "test_name": "Performance Test 2",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 57.213544845581055,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 2 validation errors for CreateGraphResponse\ngraph_summary\n  Field required [type=missing, input_value={'success': False, 'error...e': 0.04687190055847168}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing\nquality_metrics\n  Field required [type=missing, input_value={'success': False, 'error...e': 0.04687190055847168}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.11/v/missing"
+      }
+    }
+  ],
+  "timestamp": "2025-08-30T14:58:47.854668"
+}

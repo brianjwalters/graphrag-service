@@ -1,0 +1,133 @@
+{
+  "timestamp": "2025-08-29T16:22:11.868264",
+  "results": [
+    {
+      "file": "law_schema.sql",
+      "path": "/srv/luris/be/sql/law_schema.sql",
+      "statements": 98,
+      "statement_types": {
+        "DROP": 1,
+        "CREATE": 70,
+        "INSERT": 2,
+        "ELSIF": 1,
+        "END": 2,
+        "RETURN": 2,
+        "END;": 2,
+        "$$": 2,
+        "COMMENT": 7,
+        "DO": 1,
+        "RAISE": 8
+      },
+      "status": "ready_to_execute"
+    },
+    {
+      "file": "client_schema.sql",
+      "path": "/srv/luris/be/sql/client_schema.sql",
+      "statements": 135,
+      "statement_types": {
+        "CREATE": 97,
+        "RETURN": 3,
+        "END;": 4,
+        "$$": 4,
+        "ELSIF": 5,
+        "END": 2,
+        "GRANT": 8,
+        "COMMENT": 12
+      },
+      "status": "ready_to_execute"
+    },
+    {
+      "file": "graph_schema_core.sql",
+      "path": "/srv/luris/be/sql/graph_schema_core.sql",
+      "statements": 107,
+      "statement_types": {
+        "DROP": 1,
+        "CREATE": 73,
+        "RETURN": 1,
+        "END;": 4,
+        "$$": 4,
+        "BEGIN": 1,
+        "IF": 1,
+        "END": 1,
+        "INSERT": 1,
+        "GRANT": 8,
+        "COMMENT": 12
+      },
+      "status": "ready_to_execute"
+    },
+    {
+      "file": "graph_schema_knowledge.sql",
+      "path": "/srv/luris/be/sql/graph_schema_knowledge.sql",
+      "statements": 215,
+      "statement_types": {
+        "CREATE": 131,
+        "V_OUT_DEGREE": 1,
+        "BEGIN": 3,
+        "SELECT": 3,
+        "RETURN": 1,
+        "END;": 8,
+        "$$": 8,
+        "V_EDGE_COUNT": 2,
+        "V_INTERNAL_EDGES": 1,
+        "V_EXTERNAL_EDGES": 1,
+        "UPDATE": 1,
+        "GRANT": 20,
+        "COMMENT": 24,
+        "V_CITATION_COUNT": 1,
+        "V_DOCUMENT_COUNT": 1,
+        "V_LEGAL_COMPLEXITY": 2,
+        "V_PROCEDURAL_COMPLEXITY": 2,
+        "V_FACTUAL_COMPLEXITY": 2,
+        "V_OVERALL_COMPLEXITY": 2,
+        "INSERT": 1
+      },
+      "status": "ready_to_execute"
+    },
+    {
+      "file": "migrate_to_2048_dimensions.sql",
+      "path": "/srv/luris/be/sql/migrate_to_2048_dimensions.sql",
+      "statements": 71,
+      "statement_types": {
+        "BEGIN;": 1,
+        "SET": 1,
+        "DO": 8,
+        "ALTER": 6,
+        "CREATE": 7,
+        "RAISE": 15,
+        "END": 16,
+        "DROP": 5,
+        "UPDATE": 2,
+        "IF": 1,
+        "END;": 2,
+        "$$;": 2,
+        "V_COUNT": 1,
+        "BEGIN": 1,
+        "FOR": 1,
+        "INSERT": 1,
+        "COMMIT;": 1
+      },
+      "status": "ready_to_execute"
+    },
+    {
+      "file": "public_schema_views.sql",
+      "path": "/srv/luris/be/sql/public_schema_views.sql",
+      "statements": 131,
+      "statement_types": {
+        "CREATE": 44,
+        "COMMENT": 32,
+        "RETURN": 9,
+        "ELSIF": 6,
+        "END": 6,
+        "END;": 10,
+        "$$": 10,
+        "DO": 2,
+        "BEGIN": 1,
+        "EXECUTE": 1,
+        "GRANT": 2,
+        "RAISE": 8
+      },
+      "status": "ready_to_execute"
+    }
+  ],
+  "errors": []
+}

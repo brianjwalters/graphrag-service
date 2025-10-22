@@ -1,0 +1,205 @@
+{
+  "summary": {
+    "total_tests": 11,
+    "successful": 4,
+    "failed": 7,
+    "errors": 0,
+    "success_rate": 36.36363636363637,
+    "avg_response_time_ms": 93.9
+  },
+  "results": [
+    {
+      "test_name": "Health Ping",
+      "endpoint": "/health/ping",
+      "method": "GET",
+      "status": "success",
+      "response_time": 311.3076686859131,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "status": "healthy",
+        "service": "graphrag-service",
+        "version": "1.0.0",
+        "dependencies": {
+          "supabase": "healthy",
+          "prompt_service": "unhealthy: All connection attempts failed"
+        },
+        "metrics": {
+          "uptime_seconds": 0,
+          "environment": "production"
+        },
+        "graph_stats": null
+      }
+    },
+    {
+      "test_name": "Health Metrics",
+      "endpoint": "/health/metrics",
+      "method": "GET",
+      "status": "success",
+      "response_time": 159.18684005737305,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "service": "graphrag-service",
+        "timestamp": "2025-08-30T21:01:05.005337",
+        "system_metrics": {
+          "cpu_percent": 0.0,
+          "memory_mb": 192.5,
+          "memory_percent": 0.04979736725725084,
+          "num_threads": 133,
+          "num_connections": 3
+        },
+        "processing_metrics": {
+          "graphs_created": 0,
+          "total_entities_processed": 0,
+          "total_relationships_discovered": 0,
+          "total_communities_detected": 0,
+          "average_processing_time": 0,
+          "error_rate": 0
+        },
+        "config_metrics": {
+          "entity_similarity_threshold": 0.85,
+          "leiden_resolution": 1.0,
+          "min_community_size": 3,
+          "max_community_size": 50,
+          "batch_size": 100
+        },
+        "status": "operational"
+      }
+    },
+    {
+      "test_name": "Create Simple Graph",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 32.51075744628906,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: argument of type 'NoneType' is not iterable"
+      }
+    },
+    {
+      "test_name": "Create Complex Graph",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 13.4429931640625,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: 'NoneType' object has no attribute 'copy'"
+      }
+    },
+    {
+      "test_name": "Query Graph Entities",
+      "endpoint": "/graph/query",
+      "method": "POST",
+      "status": "success",
+      "response_time": 5.980014801025391,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "query_type": "entities",
+        "result_count": 0,
+        "entities": [],
+        "relationships": [],
+        "communities": [],
+        "analytics": null,
+        "graph_context": null,
+        "query_metadata": {
+          "execution_time": 0.1,
+          "filters_applied": {
+            "entity_types": null,
+            "document_ids": null
+          }
+        }
+      }
+    },
+    {
+      "test_name": "Graph Statistics",
+      "endpoint": "/graph/stats",
+      "method": "GET",
+      "status": "success",
+      "response_time": 267.14038848876953,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "statistics": {
+          "total_entities": 1,
+          "total_relationships": 1,
+          "total_communities": 1,
+          "total_documents": 1
+        },
+        "graph_info": {
+          "methodology": "Microsoft GraphRAG",
+          "entity_deduplication_threshold": 0.85,
+          "leiden_resolution": 1.0,
+          "min_community_size": 3
+        },
+        "timestamp": "2025-08-30T21:01:05.324529"
+      }
+    },
+    {
+      "test_name": "Performance Test 0",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 22.705793380737305,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    },
+    {
+      "test_name": "Performance Test 2",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 52.54840850830078,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    },
+    {
+      "test_name": "Performance Test 4",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 53.61366271972656,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    },
+    {
+      "test_name": "Performance Test 1",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 57.59930610656738,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    },
+    {
+      "test_name": "Performance Test 3",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 56.812286376953125,
+      "status_code": 500,
+      "error": null,
+      "data": {
+        "detail": "Failed to create knowledge graph: 500: Graph construction failed: float division by zero"
+      }
+    }
+  ],
+  "timestamp": "2025-08-30T15:01:05.385337"
+}

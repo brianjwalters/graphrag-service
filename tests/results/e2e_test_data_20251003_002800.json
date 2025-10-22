@@ -1,0 +1,151 @@
+{
+  "test_id": "20251003_002800",
+  "start_time": "2025-10-03T00:28:00.664960",
+  "end_time": "2025-10-03T00:28:00.727053",
+  "duration_seconds": 0.062093,
+  "document_name": "Rahimi.pdf",
+  "client_id": "550e8400-e29b-41d4-a716-446655440000",
+  "case_id": "660e8400-e29b-41d4-a716-446655440001",
+  "service_health": {
+    "total_services": 8,
+    "healthy_services": 0,
+    "required_services": 8,
+    "required_healthy": 0,
+    "all_healthy": false,
+    "check_duration_seconds": 0.061902,
+    "services": {
+      "Document Upload": {
+        "service_name": "Document Upload",
+        "systemd_unit": "luris-document-upload-service",
+        "port": 8008,
+        "systemd_active": false,
+        "systemd_message": "Service is inactive",
+        "http_healthy": false,
+        "http_message": "Skipped (service not active)",
+        "response_time_ms": -1,
+        "overall_healthy": false,
+        "required": true
+      },
+      "Entity Extraction": {
+        "service_name": "Entity Extraction",
+        "systemd_unit": "luris-entity-extraction-service",
+        "port": 8007,
+        "systemd_active": false,
+        "systemd_message": "Service is inactive",
+        "http_healthy": false,
+        "http_message": "Skipped (service not active)",
+        "response_time_ms": -1,
+        "overall_healthy": false,
+        "required": true
+      },
+      "Chunking Service": {
+        "service_name": "Chunking Service",
+        "systemd_unit": "luris-chunking-service",
+        "port": 8009,
+        "systemd_active": false,
+        "systemd_message": "Service is inactive",
+        "http_healthy": false,
+        "http_message": "Skipped (service not active)",
+        "response_time_ms": -1,
+        "overall_healthy": false,
+        "required": true
+      },
+      "GraphRAG Service": {
+        "service_name": "GraphRAG Service",
+        "systemd_unit": "luris-graphrag-service",
+        "port": 8010,
+        "systemd_active": false,
+        "systemd_message": "Service is inactive",
+        "http_healthy": false,
+        "http_message": "Skipped (service not active)",
+        "response_time_ms": -1,
+        "overall_healthy": false,
+        "required": true
+      },
+      "vLLM LLM Service": {
+        "service_name": "vLLM LLM Service",
+        "systemd_unit": "luris-vllm-llm-service",
+        "port": 8080,
+        "systemd_active": false,
+        "systemd_message": "Service is inactive",
+        "http_healthy": false,
+        "http_message": "Skipped (service not active)",
+        "response_time_ms": -1,
+        "overall_healthy": false,
+        "required": true
+      },
+      "vLLM Embeddings Service": {
+        "service_name": "vLLM Embeddings Service",
+        "systemd_unit": "luris-vllm-embeddings-service",
+        "port": 8081,
+        "systemd_active": false,
+        "systemd_message": "Service is inactive",
+        "http_healthy": false,
+        "http_message": "Skipped (service not active)",
+        "response_time_ms": -1,
+        "overall_healthy": false,
+        "required": true
+      },
+      "Log Service": {
+        "service_name": "Log Service",
+        "systemd_unit": "luris-log-service",
+        "port": 8001,
+        "systemd_active": false,
+        "systemd_message": "Service is inactive",
+        "http_healthy": false,
+        "http_message": "Skipped (service not active)",
+        "response_time_ms": -1,
+        "overall_healthy": false,
+        "required": true
+      },
+      "Supabase Service": {
+        "service_name": "Supabase Service",
+        "systemd_unit": "luris-supabase-service",
+        "port": 8002,
+        "systemd_active": false,
+        "systemd_message": "Service is inactive",
+        "http_healthy": false,
+        "http_message": "Skipped (service not active)",
+        "response_time_ms": -1,
+        "overall_healthy": false,
+        "required": true
+      }
+    }
+  },
+  "stage_results": [
+    {
+      "stage_number": 0,
+      "stage_name": "Service Health Check (systemctl)",
+      "passed": false,
+      "status": "FAILED",
+      "duration_seconds": 0.061994075775146484,
+      "details": "0/0 services healthy"
+    },
+    {
+      "stage_number": 1,
+      "stage_name": "Document Upload",
+      "passed": false,
+      "status": "FAILED",
+      "duration_seconds": 0,
+      "details": "Test document not found"
+    }
+  ],
+  "database_validation": {
+    "total_tables": 0,
+    "passed_tables": 0,
+    "failed_tables": 0,
+    "all_passed": true,
+    "total_rows": 0,
+    "validations": []
+  },
+  "performance_benchmark": {
+    "iterations": 20,
+    "total_benchmarks": 0,
+    "results": [],
+    "comparisons": []
+  },
+  "overall_status": "FAILED",
+  "total_stages": 2,
+  "passed_stages": 0,
+  "failed_stages": 2
+}

@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.class
+*.so
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Environment
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+
+# Data
+data/
+*.pdf
+*.png
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Redis
+dump.rdb
+
+# Environment file variants
+.env.*
+!.env.example

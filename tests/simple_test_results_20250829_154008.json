@@ -1,0 +1,390 @@
+{
+  "timestamp": "2025-08-29T15:40:04.148667",
+  "tables_tested": {
+    "law_documents": {
+      "read": {
+        "table": "law_documents",
+        "accessible": true,
+        "row_count": 2,
+        "sample_columns": [
+          "id",
+          "document_id",
+          "title",
+          "document_type",
+          "court_name",
+          "jurisdiction",
+          "date_filed",
+          "docket_number",
+          "judge_name",
+          "citation",
+          "status",
+          "content",
+          "metadata",
+          "vector",
+          "created_at",
+          "updated_at",
+          "indexed_at",
+          "chunk_count",
+          "storage_path",
+          "file_size",
+          "mime_type"
+        ],
+        "error": null,
+        "has_data": true
+      },
+      "write": {
+        "table": "law_documents",
+        "can_insert": false,
+        "can_update": false,
+        "can_delete": false,
+        "error": null
+      }
+    },
+    "law_opinions": {
+      "read": {
+        "table": "law_opinions",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.law_opinions\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "law_statutes": {
+      "read": {
+        "table": "law_statutes",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.law_statutes\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "law_regulations": {
+      "read": {
+        "table": "law_regulations",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.law_regulations\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "law_administrative_codes": {
+      "read": {
+        "table": "law_administrative_codes",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.law_administrative_codes\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "law_court_rules": {
+      "read": {
+        "table": "law_court_rules",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.law_court_rules\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "graph_documents": {
+      "read": {
+        "table": "graph_documents",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.graph_documents\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "graph_document_registry": {
+      "read": {
+        "table": "graph_document_registry",
+        "accessible": true,
+        "row_count": 5,
+        "sample_columns": [
+          "id",
+          "document_id",
+          "client_id",
+          "case_id",
+          "title",
+          "document_type",
+          "document_schema",
+          "file_path",
+          "file_size_bytes",
+          "mime_type",
+          "content_hash",
+          "document_date",
+          "author",
+          "source",
+          "jurisdiction",
+          "court",
+          "case_number",
+          "citation",
+          "tags",
+          "classification_confidence",
+          "auto_classified",
+          "page_count",
+          "language",
+          "parent_document_id",
+          "related_document_ids",
+          "processing_status",
+          "registry_metadata",
+          "created_at",
+          "updated_at",
+          "uploaded_at"
+        ],
+        "error": null,
+        "has_data": true
+      },
+      "write": {
+        "table": "graph_document_registry",
+        "can_insert": false,
+        "can_update": false,
+        "can_delete": false,
+        "error": null
+      }
+    },
+    "graph_entities": {
+      "read": {
+        "table": "graph_entities",
+        "accessible": true,
+        "row_count": 5,
+        "sample_columns": [
+          "id",
+          "entity_id",
+          "entity_type",
+          "entity_text",
+          "canonical_name",
+          "document_ids",
+          "mention_count",
+          "confidence_score",
+          "metadata",
+          "created_at",
+          "updated_at"
+        ],
+        "error": null,
+        "has_data": true
+      },
+      "write": {
+        "table": "graph_entities",
+        "can_insert": false,
+        "can_update": false,
+        "can_delete": false,
+        "error": null
+      }
+    },
+    "graph_entity_mentions": {
+      "read": {
+        "table": "graph_entity_mentions",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.graph_entity_mentions\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "graph_relationships": {
+      "read": {
+        "table": "graph_relationships",
+        "accessible": true,
+        "row_count": 5,
+        "sample_columns": [
+          "id",
+          "relationship_id",
+          "source_entity",
+          "target_entity",
+          "relationship_type",
+          "document_id",
+          "confidence_score",
+          "metadata",
+          "created_at"
+        ],
+        "error": null,
+        "has_data": true
+      },
+      "write": {
+        "table": "graph_relationships",
+        "can_insert": false,
+        "can_update": false,
+        "can_delete": false,
+        "error": null
+      }
+    },
+    "graph_chunks": {
+      "read": {
+        "table": "graph_chunks",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.graph_chunks\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "graph_communities": {
+      "read": {
+        "table": "graph_communities",
+        "accessible": true,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": null,
+        "has_data": false
+      },
+      "write": {
+        "table": "graph_communities",
+        "can_insert": false,
+        "can_update": false,
+        "can_delete": false,
+        "error": null
+      }
+    },
+    "graph_community_members": {
+      "read": {
+        "table": "graph_community_members",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.graph_community_members\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "graph_legal_provisions": {
+      "read": {
+        "table": "graph_legal_provisions",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.graph_legal_provisions\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "graph_provision_relationships": {
+      "read": {
+        "table": "graph_provision_relationships",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.graph_provision_relationships\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "graph_citation_graph": {
+      "read": {
+        "table": "graph_citation_graph",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.graph_citation_graph\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "client_documents": {
+      "read": {
+        "table": "client_documents",
+        "accessible": true,
+        "row_count": 5,
+        "sample_columns": [
+          "id",
+          "document_id",
+          "title",
+          "document_type",
+          "client_name",
+          "date_created",
+          "fiscal_year",
+          "fiscal_period",
+          "total_amount",
+          "currency",
+          "account_number",
+          "institution_name",
+          "confidentiality_level",
+          "content",
+          "metadata",
+          "financial_data",
+          "vector",
+          "created_at",
+          "updated_at",
+          "indexed_at",
+          "chunk_count",
+          "storage_path",
+          "file_size",
+          "mime_type"
+        ],
+        "error": null,
+        "has_data": true
+      },
+      "write": {
+        "table": "client_documents",
+        "can_insert": false,
+        "can_update": false,
+        "can_delete": false,
+        "error": null
+      }
+    },
+    "client_contracts": {
+      "read": {
+        "table": "client_contracts",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.client_contracts\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "client_matters": {
+      "read": {
+        "table": "client_matters",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.client_matters\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "client_entities": {
+      "read": {
+        "table": "client_entities",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.client_entities\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    },
+    "client_correspondence": {
+      "read": {
+        "table": "client_correspondence",
+        "accessible": false,
+        "row_count": 0,
+        "sample_columns": [],
+        "error": "{'message': 'relation \"public.client_correspondence\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "has_data": false
+      },
+      "write": null
+    }
+  },
+  "summary": {
+    "total_tables": 22,
+    "accessible_tables": 6,
+    "tables_with_data": 5,
+    "total_rows": 22,
+    "errors": []
+  }
+}

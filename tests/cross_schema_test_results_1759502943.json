@@ -1,0 +1,161 @@
+{
+  "summary": {
+    "total_tests": 8,
+    "passed": 5,
+    "failed": 3,
+    "success_rate": 62.5,
+    "duration_seconds": 1.503311,
+    "start_time": "2025-10-03T14:49:02.407378",
+    "end_time": "2025-10-03T14:49:03.910689"
+  },
+  "tests": [
+    {
+      "name": "Schema Conversion - dot to underscore notation",
+      "passed": true,
+      "timestamp": "2025-10-03T14:49:02.513880",
+      "details": {
+        "operation": "schema_conversion",
+        "conversions": [
+          {
+            "input": "client.documents",
+            "expected": "client_documents",
+            "actual": "client_documents",
+            "passed": true
+          },
+          {
+            "input": "law.documents",
+            "expected": "law_documents",
+            "actual": "law_documents",
+            "passed": true
+          },
+          {
+            "input": "graph.entities",
+            "expected": "graph_entities",
+            "actual": "graph_entities",
+            "passed": true
+          },
+          {
+            "input": "law.chunks",
+            "expected": "law_chunks",
+            "actual": "law_chunks",
+            "passed": true
+          },
+          {
+            "input": "client.chunks",
+            "expected": "client_chunks",
+            "actual": "client_chunks",
+            "passed": true
+          }
+        ],
+        "total_tests": 5,
+        "passed": 5
+      }
+    },
+    {
+      "name": "Law Schema - SELECT documents",
+      "passed": true,
+      "timestamp": "2025-10-03T14:49:02.862874",
+      "details": {
+        "operation": "SELECT",
+        "table": "law.documents",
+        "latency_ms": 348.9706516265869,
+        "row_count": 10,
+        "read_only": true
+      }
+    },
+    {
+      "name": "Law Schema - SELECT with filters",
+      "passed": true,
+      "timestamp": "2025-10-03T14:49:02.935710",
+      "details": {
+        "operation": "SELECT",
+        "table": "law.documents",
+        "latency_ms": 72.81231880187988,
+        "row_count": 5,
+        "filters": {
+          "document_type": "opinion"
+        }
+      }
+    },
+    {
+      "name": "Graph Schema - SELECT entities",
+      "passed": false,
+      "timestamp": "2025-10-03T14:49:03.034636",
+      "details": {
+        "operation": "SELECT",
+        "table": "graph.entities",
+        "error": "{'message': 'relation \"public.graph_entities\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+      }
+    },
+    {
+      "name": "Client Schema - INSERT document",
+      "passed": false,
+      "timestamp": "2025-10-03T14:49:03.119635",
+      "details": {
+        "operation": "INSERT",
+        "table": "client.documents",
+        "error": "{'message': \"Could not find the 'client_id' column of 'client_documents' in the schema cache\", 'code': 'PGRST204', 'hint': None, 'details': None}"
+      }
+    },
+    {
+      "name": "Cross-Schema Performance Comparison",
+      "passed": true,
+      "timestamp": "2025-10-03T14:49:03.359789",
+      "details": {
+        "operation": "performance_comparison",
+        "schemas_tested": 3,
+        "average_latency_ms": 82.82613754272461,
+        "performance_data": [
+          {
+            "schema": "client",
+            "table": "client.documents",
+            "latency_ms": 83.71329307556152,
+            "rows_returned": 5
+          },
+          {
+            "schema": "law",
+            "table": "law.documents",
+            "latency_ms": 81.9389820098877,
+            "rows_returned": 10
+          },
+          {
+            "schema": "graph",
+            "table": "graph.entities",
+            "error": "{'message': 'relation \"public.graph_entities\" does not exist', 'code': '42P01', 'hint': None, 'details': None}"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Dual-Client Architecture - Anon vs Service Role",
+      "passed": true,
+      "timestamp": "2025-10-03T14:49:03.910534",
+      "details": {
+        "operation": "dual_client_test",
+        "anon_client": {
+          "initialized": true,
+          "result": "success"
+        },
+        "admin_client": {
+          "initialized": true,
+          "result": "success"
+        }
+      }
+    },
+    {
+      "name": "Client Health Monitoring",
+      "passed": false,
+      "timestamp": "2025-10-03T14:49:03.910607",
+      "details": {
+        "operation": "health_check",
+        "health_data": {
+          "operation_count": 7,
+          "error_count": 3,
+          "error_rate": 0.42857142857142855,
+          "primary_client": "service_role",
+          "connection_pool_utilization": 0.0
+        }
+      }
+    }
+  ]
+}

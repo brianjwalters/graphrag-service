@@ -1,0 +1,871 @@
+{
+  "summary": {
+    "total_tests": 11,
+    "successful": 4,
+    "failed": 7,
+    "errors": 0,
+    "success_rate": 36.36363636363637,
+    "avg_response_time_ms": 74.03
+  },
+  "results": [
+    {
+      "test_name": "Health Ping",
+      "endpoint": "/health/ping",
+      "method": "GET",
+      "status": "success",
+      "response_time": 216.32933616638184,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "status": "healthy",
+        "service": "graphrag-service",
+        "version": "1.0.0",
+        "dependencies": {
+          "supabase": "unhealthy: {'message': 'relation \"public.graph_entities\" does",
+          "prompt_service": "unhealthy: All connection attempts failed"
+        },
+        "metrics": {
+          "uptime_seconds": 0,
+          "environment": "production"
+        },
+        "graph_stats": null
+      }
+    },
+    {
+      "test_name": "Health Metrics",
+      "endpoint": "/health/metrics",
+      "method": "GET",
+      "status": "success",
+      "response_time": 160.40301322937012,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "service": "graphrag-service",
+        "timestamp": "2025-08-30T20:57:02.126397",
+        "system_metrics": {
+          "cpu_percent": 0.0,
+          "memory_mb": 194.4921875,
+          "memory_percent": 0.05031272150443425,
+          "num_threads": 133,
+          "num_connections": 3
+        },
+        "processing_metrics": {
+          "graphs_created": 0,
+          "total_entities_processed": 0,
+          "total_relationships_discovered": 0,
+          "total_communities_detected": 0,
+          "average_processing_time": 0,
+          "error_rate": 0
+        },
+        "config_metrics": {
+          "entity_similarity_threshold": 0.85,
+          "leiden_resolution": 1.0,
+          "min_community_size": 3,
+          "max_community_size": 50,
+          "batch_size": 100
+        },
+        "status": "operational"
+      }
+    },
+    {
+      "test_name": "Create Simple Graph",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 6.272315979003906,
+      "status_code": 422,
+      "error": null,
+      "data": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              0,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_001",
+              "source_entity_id": "ent_001",
+              "target_entity_id": "ent_002",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.85
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              0,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_001",
+              "source_entity_id": "ent_001",
+              "target_entity_id": "ent_002",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.85
+            }
+          }
+        ]
+      }
+    },
+    {
+      "test_name": "Create Complex Graph",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 4.31513786315918,
+      "status_code": 422,
+      "error": null,
+      "data": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              0,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_000",
+              "source_entity_id": "ent_000",
+              "target_entity_id": "ent_001",
+              "relationship_type": "CITES",
+              "confidence": 0.75
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              0,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_000",
+              "source_entity_id": "ent_000",
+              "target_entity_id": "ent_001",
+              "relationship_type": "CITES",
+              "confidence": 0.75
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              1,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_001",
+              "source_entity_id": "ent_001",
+              "target_entity_id": "ent_002",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.76
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              1,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_001",
+              "source_entity_id": "ent_001",
+              "target_entity_id": "ent_002",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.76
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              2,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_002",
+              "source_entity_id": "ent_002",
+              "target_entity_id": "ent_003",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.77
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              2,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_002",
+              "source_entity_id": "ent_002",
+              "target_entity_id": "ent_003",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.77
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              3,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_003",
+              "source_entity_id": "ent_003",
+              "target_entity_id": "ent_004",
+              "relationship_type": "CITES",
+              "confidence": 0.78
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              3,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_003",
+              "source_entity_id": "ent_003",
+              "target_entity_id": "ent_004",
+              "relationship_type": "CITES",
+              "confidence": 0.78
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              4,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_004",
+              "source_entity_id": "ent_004",
+              "target_entity_id": "ent_005",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.79
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              4,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_004",
+              "source_entity_id": "ent_004",
+              "target_entity_id": "ent_005",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.79
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              5,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_005",
+              "source_entity_id": "ent_005",
+              "target_entity_id": "ent_006",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.8
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              5,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_005",
+              "source_entity_id": "ent_005",
+              "target_entity_id": "ent_006",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.8
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              6,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_006",
+              "source_entity_id": "ent_006",
+              "target_entity_id": "ent_007",
+              "relationship_type": "CITES",
+              "confidence": 0.81
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              6,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_006",
+              "source_entity_id": "ent_006",
+              "target_entity_id": "ent_007",
+              "relationship_type": "CITES",
+              "confidence": 0.81
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              7,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_007",
+              "source_entity_id": "ent_007",
+              "target_entity_id": "ent_008",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.8200000000000001
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              7,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_007",
+              "source_entity_id": "ent_007",
+              "target_entity_id": "ent_008",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.8200000000000001
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              8,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_008",
+              "source_entity_id": "ent_008",
+              "target_entity_id": "ent_009",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.83
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              8,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_008",
+              "source_entity_id": "ent_008",
+              "target_entity_id": "ent_009",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.83
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              9,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_009",
+              "source_entity_id": "ent_009",
+              "target_entity_id": "ent_010",
+              "relationship_type": "CITES",
+              "confidence": 0.84
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              9,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_009",
+              "source_entity_id": "ent_009",
+              "target_entity_id": "ent_010",
+              "relationship_type": "CITES",
+              "confidence": 0.84
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              10,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_010",
+              "source_entity_id": "ent_010",
+              "target_entity_id": "ent_011",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.85
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              10,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_010",
+              "source_entity_id": "ent_010",
+              "target_entity_id": "ent_011",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.85
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              11,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_011",
+              "source_entity_id": "ent_011",
+              "target_entity_id": "ent_012",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.86
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              11,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_011",
+              "source_entity_id": "ent_011",
+              "target_entity_id": "ent_012",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.86
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              12,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_012",
+              "source_entity_id": "ent_012",
+              "target_entity_id": "ent_013",
+              "relationship_type": "CITES",
+              "confidence": 0.87
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              12,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_012",
+              "source_entity_id": "ent_012",
+              "target_entity_id": "ent_013",
+              "relationship_type": "CITES",
+              "confidence": 0.87
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              13,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_013",
+              "source_entity_id": "ent_013",
+              "target_entity_id": "ent_014",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.88
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              13,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_013",
+              "source_entity_id": "ent_013",
+              "target_entity_id": "ent_014",
+              "relationship_type": "DECIDED_CASE",
+              "confidence": 0.88
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              14,
+              "source_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_014",
+              "source_entity_id": "ent_014",
+              "target_entity_id": "ent_015",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.89
+            }
+          },
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "relationships",
+              14,
+              "target_entity"
+            ],
+            "msg": "Field required",
+            "input": {
+              "relationship_id": "rel_014",
+              "source_entity_id": "ent_014",
+              "target_entity_id": "ent_015",
+              "relationship_type": "REPRESENTS",
+              "confidence": 0.89
+            }
+          }
+        ]
+      }
+    },
+    {
+      "test_name": "Query Graph Entities",
+      "endpoint": "/graph/query",
+      "method": "POST",
+      "status": "success",
+      "response_time": 5.584478378295898,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "query_type": "entities",
+        "result_count": 0,
+        "entities": [],
+        "relationships": [],
+        "communities": [],
+        "analytics": null,
+        "graph_context": null,
+        "query_metadata": {
+          "execution_time": 0.1,
+          "filters_applied": {
+            "entity_types": null,
+            "document_ids": null
+          }
+        }
+      }
+    },
+    {
+      "test_name": "Graph Statistics",
+      "endpoint": "/graph/stats",
+      "method": "GET",
+      "status": "success",
+      "response_time": 369.8008060455322,
+      "status_code": 200,
+      "error": null,
+      "data": {
+        "statistics": {
+          "total_entities": 1,
+          "total_relationships": 1,
+          "total_communities": 1,
+          "total_documents": 1
+        },
+        "graph_info": {
+          "methodology": "Microsoft GraphRAG",
+          "entity_deduplication_threshold": 0.85,
+          "leiden_resolution": 1.0,
+          "min_community_size": 3
+        },
+        "timestamp": "2025-08-30T20:57:02.513182"
+      }
+    },
+    {
+      "test_name": "Performance Test 0",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 6.890296936035156,
+      "status_code": 422,
+      "error": null,
+      "data": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "markdown_content"
+            ],
+            "msg": "Field required",
+            "input": {
+              "document_id": "perf_test_000",
+              "entities": [
+                {
+                  "entity_id": "perf_ent_000",
+                  "entity_text": "Performance Entity 0",
+                  "entity_type": "PARTY",
+                  "confidence": 0.9
+                }
+              ],
+              "graph_options": {
+                "use_ai_summaries": false,
+                "enable_community_detection": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "test_name": "Performance Test 1",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 10.340690612792969,
+      "status_code": 422,
+      "error": null,
+      "data": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "markdown_content"
+            ],
+            "msg": "Field required",
+            "input": {
+              "document_id": "perf_test_001",
+              "entities": [
+                {
+                  "entity_id": "perf_ent_001",
+                  "entity_text": "Performance Entity 1",
+                  "entity_type": "PARTY",
+                  "confidence": 0.9
+                }
+              ],
+              "graph_options": {
+                "use_ai_summaries": false,
+                "enable_community_detection": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "test_name": "Performance Test 2",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 10.818243026733398,
+      "status_code": 422,
+      "error": null,
+      "data": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "markdown_content"
+            ],
+            "msg": "Field required",
+            "input": {
+              "document_id": "perf_test_002",
+              "entities": [
+                {
+                  "entity_id": "perf_ent_002",
+                  "entity_text": "Performance Entity 2",
+                  "entity_type": "PARTY",
+                  "confidence": 0.9
+                }
+              ],
+              "graph_options": {
+                "use_ai_summaries": false,
+                "enable_community_detection": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "test_name": "Performance Test 4",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 11.505842208862305,
+      "status_code": 422,
+      "error": null,
+      "data": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "markdown_content"
+            ],
+            "msg": "Field required",
+            "input": {
+              "document_id": "perf_test_004",
+              "entities": [
+                {
+                  "entity_id": "perf_ent_004",
+                  "entity_text": "Performance Entity 4",
+                  "entity_type": "PARTY",
+                  "confidence": 0.9
+                }
+              ],
+              "graph_options": {
+                "use_ai_summaries": false,
+                "enable_community_detection": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "test_name": "Performance Test 3",
+      "endpoint": "/graph/create",
+      "method": "POST",
+      "status": "failure",
+      "response_time": 12.082099914550781,
+      "status_code": 422,
+      "error": null,
+      "data": {
+        "detail": [
+          {
+            "type": "missing",
+            "loc": [
+              "body",
+              "markdown_content"
+            ],
+            "msg": "Field required",
+            "input": {
+              "document_id": "perf_test_003",
+              "entities": [
+                {
+                  "entity_id": "perf_ent_003",
+                  "entity_text": "Performance Entity 3",
+                  "entity_type": "PARTY",
+                  "confidence": 0.9
+                }
+              ],
+              "graph_options": {
+                "use_ai_summaries": false,
+                "enable_community_detection": false
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "timestamp": "2025-08-30T14:57:02.529329"
+}

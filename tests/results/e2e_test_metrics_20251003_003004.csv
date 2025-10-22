@@ -1,0 +1,15 @@
+GraphRAG E2E Test Metrics
+Test ID,20251003_003004
+Document,Rahimi.pdf
+Duration (s),0.104803
+
+STAGE RESULTS
+Stage,Name,Status,Passed,Duration (s),Details
+0,Service Health Check (systemctl),FAILED,NO,0.07,0/0 services healthy
+1,Document Upload,FAILED,NO,0.04,HTTP 404
+
+DATABASE VALIDATION
+Table,Row Count,Expected Min,Passed,Message
+
+PERFORMANCE BENCHMARK
+Table,Old (JSONB) p50 (ms),New (UUID) p50 (ms),Improvement (%),Speedup (x)

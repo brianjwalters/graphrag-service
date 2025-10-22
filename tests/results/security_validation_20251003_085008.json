@@ -1,0 +1,465 @@
+{
+  "timestamp": "2025-10-03T08:50:08.415260",
+  "test_results": {
+    "Dual-Client Architecture": [
+      {
+        "category": "Dual-Client Architecture",
+        "test": "Anon client initialized",
+        "passed": true,
+        "details": "anon_client attribute present and not None",
+        "timestamp": "2025-10-03T08:50:08.514415"
+      },
+      {
+        "category": "Dual-Client Architecture",
+        "test": "Service client initialized",
+        "passed": true,
+        "details": "service_client attribute present and not None",
+        "timestamp": "2025-10-03T08:50:08.514426"
+      },
+      {
+        "category": "Dual-Client Architecture",
+        "test": "Clients are separate instances",
+        "passed": true,
+        "details": "anon_client and service_client are different objects",
+        "timestamp": "2025-10-03T08:50:08.514431"
+      },
+      {
+        "category": "Dual-Client Architecture",
+        "test": "Primary client is anon",
+        "passed": true,
+        "details": "Primary client correctly set to anon_client",
+        "timestamp": "2025-10-03T08:50:08.514435"
+      }
+    ],
+    "RLS Enforcement": [
+      {
+        "category": "RLS Enforcement",
+        "test": "Anon client RLS restriction",
+        "passed": true,
+        "details": "Access denied (expected RLS behavior)",
+        "timestamp": "2025-10-03T08:50:08.669278"
+      },
+      {
+        "category": "RLS Enforcement",
+        "test": "Service client access",
+        "passed": false,
+        "details": "{'message': 'relation \"public.graph_entities\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+        "timestamp": "2025-10-03T08:50:08.832543"
+      }
+    ],
+    "Circuit Breaker": [
+      {
+        "category": "Circuit Breaker",
+        "test": "Circuit breaker enabled in config",
+        "passed": true,
+        "details": "circuit_breaker_enabled=True",
+        "timestamp": "2025-10-03T08:50:08.832574"
+      },
+      {
+        "category": "Circuit Breaker",
+        "test": "Failure threshold configured",
+        "passed": true,
+        "details": "Threshold set to 5 failures",
+        "timestamp": "2025-10-03T08:50:08.832585"
+      },
+      {
+        "category": "Circuit Breaker",
+        "test": "Circuit starts closed",
+        "passed": true,
+        "details": "Initial state: closed",
+        "timestamp": "2025-10-03T08:50:08.832592"
+      },
+      {
+        "category": "Circuit Breaker",
+        "test": "Circuit opens after failures",
+        "passed": true,
+        "details": "State after 5 failures: open",
+        "timestamp": "2025-10-03T08:50:08.832640"
+      },
+      {
+        "category": "Circuit Breaker",
+        "test": "Circuit blocks operations when open",
+        "passed": true,
+        "details": "_is_circuit_open() returns True",
+        "timestamp": "2025-10-03T08:50:08.832652"
+      },
+      {
+        "category": "Circuit Breaker",
+        "test": "Circuit enters half-open after timeout",
+        "passed": true,
+        "details": "Circuit open after timeout: False",
+        "timestamp": "2025-10-03T08:50:08.832681"
+      },
+      {
+        "category": "Circuit Breaker",
+        "test": "Circuit closes on successful operation",
+        "passed": true,
+        "details": "State after success: closed",
+        "timestamp": "2025-10-03T08:50:08.832697"
+      }
+    ],
+    "Connection Pool": [
+      {
+        "category": "Connection Pool",
+        "test": "Connection pool limit configured",
+        "passed": true,
+        "details": "Max connections: 30",
+        "timestamp": "2025-10-03T08:50:08.832709"
+      },
+      {
+        "category": "Connection Pool",
+        "test": "Connection semaphore initialized",
+        "passed": true,
+        "details": "Semaphore for connection limiting exists",
+        "timestamp": "2025-10-03T08:50:08.832716"
+      },
+      {
+        "category": "Connection Pool",
+        "test": "Semaphore limit matches config",
+        "passed": true,
+        "details": "Semaphore value: 30, config: 30",
+        "timestamp": "2025-10-03T08:50:08.832723"
+      },
+      {
+        "category": "Connection Pool",
+        "test": "Connection pool tracking accurate",
+        "passed": true,
+        "details": "Active connections: initial=0, after=0",
+        "timestamp": "2025-10-03T08:50:08.832737"
+      },
+      {
+        "category": "Connection Pool",
+        "test": "Pool exhaustion tracking enabled",
+        "passed": true,
+        "details": "Exhaustion count: 0",
+        "timestamp": "2025-10-03T08:50:08.832743"
+      }
+    ],
+    "Credential Security": [
+      {
+        "category": "Credential Security",
+        "test": "Supabase URL configured",
+        "passed": true,
+        "details": "URL loaded from environment",
+        "timestamp": "2025-10-03T08:50:08.832755"
+      },
+      {
+        "category": "Credential Security",
+        "test": "Anon key configured",
+        "passed": true,
+        "details": "API key loaded from environment",
+        "timestamp": "2025-10-03T08:50:08.832761"
+      },
+      {
+        "category": "Credential Security",
+        "test": "Service key configured",
+        "passed": true,
+        "details": "Service key loaded from environment",
+        "timestamp": "2025-10-03T08:50:08.832766"
+      },
+      {
+        "category": "Credential Security",
+        "test": "Anon key appears to be valid JWT",
+        "passed": true,
+        "details": "Key length: 208, starts with 'eyJ': True",
+        "timestamp": "2025-10-03T08:50:08.832775"
+      },
+      {
+        "category": "Credential Security",
+        "test": "Service key appears to be valid JWT",
+        "passed": true,
+        "details": "Key length: 219, starts with 'eyJ': True",
+        "timestamp": "2025-10-03T08:50:08.832783"
+      },
+      {
+        "category": "Credential Security",
+        "test": "Credentials truncated in logs",
+        "passed": true,
+        "details": "Only partial key logged: eyJhbGciOiJIUzI1NiIs...",
+        "timestamp": "2025-10-03T08:50:08.832798"
+      },
+      {
+        "category": "Credential Security",
+        "test": "Error handling doesn't expose credentials",
+        "passed": true,
+        "details": "Verified through exception handling patterns",
+        "timestamp": "2025-10-03T08:50:08.832809"
+      }
+    ],
+    "Error Handling": [
+      {
+        "category": "Error Handling",
+        "test": "Error doesn't expose API key",
+        "passed": true,
+        "details": "API key not found in error message",
+        "timestamp": "2025-10-03T08:50:08.908229"
+      },
+      {
+        "category": "Error Handling",
+        "test": "Error doesn't expose service key",
+        "passed": true,
+        "details": "Service key not found in error message",
+        "timestamp": "2025-10-03T08:50:08.908247"
+      },
+      {
+        "category": "Error Handling",
+        "test": "Error message is informative",
+        "passed": true,
+        "details": "Error provides useful information: {'message': 'relation \"public.nonexistent_table_12345\" does not exist', 'code': '42P01', 'hint': Non",
+        "timestamp": "2025-10-03T08:50:08.908256"
+      }
+    ],
+    "Retry Logic": [
+      {
+        "category": "Retry Logic",
+        "test": "Max retries configured",
+        "passed": true,
+        "details": "Max retries: 3",
+        "timestamp": "2025-10-03T08:50:08.908272"
+      },
+      {
+        "category": "Retry Logic",
+        "test": "Backoff max time configured",
+        "passed": true,
+        "details": "Backoff max: 30s",
+        "timestamp": "2025-10-03T08:50:08.908279"
+      },
+      {
+        "category": "Retry Logic",
+        "test": "Backoff factor configured",
+        "passed": true,
+        "details": "Backoff factor: 2.0",
+        "timestamp": "2025-10-03T08:50:08.908291"
+      },
+      {
+        "category": "Retry Logic",
+        "test": "Backoff factor is reasonable",
+        "passed": true,
+        "details": "Factor 2.0 in range [1.5, 3.0]",
+        "timestamp": "2025-10-03T08:50:08.908300"
+      },
+      {
+        "category": "Retry Logic",
+        "test": "Max backoff time is reasonable",
+        "passed": true,
+        "details": "Max 30s in range [10s, 120s]",
+        "timestamp": "2025-10-03T08:50:08.908307"
+      }
+    ],
+    "Timeout Configuration": [
+      {
+        "category": "Timeout Configuration",
+        "test": "Simple operation timeout",
+        "passed": true,
+        "details": "Simple ops: 8s",
+        "timestamp": "2025-10-03T08:50:08.908319"
+      },
+      {
+        "category": "Timeout Configuration",
+        "test": "Complex operation timeout",
+        "passed": true,
+        "details": "Complex ops: 20s",
+        "timestamp": "2025-10-03T08:50:08.908326"
+      },
+      {
+        "category": "Timeout Configuration",
+        "test": "Batch operation timeout",
+        "passed": true,
+        "details": "Batch ops: 30s",
+        "timestamp": "2025-10-03T08:50:08.908331"
+      },
+      {
+        "category": "Timeout Configuration",
+        "test": "Vector operation timeout",
+        "passed": true,
+        "details": "Vector ops: 25s",
+        "timestamp": "2025-10-03T08:50:08.908337"
+      },
+      {
+        "category": "Timeout Configuration",
+        "test": "Timeout hierarchy makes sense",
+        "passed": true,
+        "details": "Complex (20s) > Simple (8s)",
+        "timestamp": "2025-10-03T08:50:08.908343"
+      },
+      {
+        "category": "Timeout Configuration",
+        "test": "Law schema timeout multiplier",
+        "passed": true,
+        "details": "Law multiplier: 1.2x",
+        "timestamp": "2025-10-03T08:50:08.908354"
+      },
+      {
+        "category": "Timeout Configuration",
+        "test": "Graph schema timeout multiplier",
+        "passed": true,
+        "details": "Graph multiplier: 1.5x",
+        "timestamp": "2025-10-03T08:50:08.908360"
+      },
+      {
+        "category": "Timeout Configuration",
+        "test": "Get operation uses simple timeout",
+        "passed": true,
+        "details": "Get timeout: 8s",
+        "timestamp": "2025-10-03T08:50:08.908368"
+      },
+      {
+        "category": "Timeout Configuration",
+        "test": "Batch insert uses batch timeout",
+        "passed": true,
+        "details": "Batch timeout: 30s",
+        "timestamp": "2025-10-03T08:50:08.908374"
+      }
+    ],
+    "Prometheus Metrics": [
+      {
+        "category": "Prometheus Metrics",
+        "test": "Metrics collection enabled",
+        "passed": true,
+        "details": "enable_metrics=True",
+        "timestamp": "2025-10-03T08:50:08.908386"
+      },
+      {
+        "category": "Prometheus Metrics",
+        "test": "Health info doesn't expose API key",
+        "passed": true,
+        "details": "API key not in health metrics",
+        "timestamp": "2025-10-03T08:50:08.908474"
+      },
+      {
+        "category": "Prometheus Metrics",
+        "test": "Health info doesn't expose service key",
+        "passed": true,
+        "details": "Service key not in health metrics",
+        "timestamp": "2025-10-03T08:50:08.908482"
+      },
+      {
+        "category": "Prometheus Metrics",
+        "test": "Metrics include operation count",
+        "passed": true,
+        "details": "operation_count present",
+        "timestamp": "2025-10-03T08:50:08.908488"
+      },
+      {
+        "category": "Prometheus Metrics",
+        "test": "Metrics include error count",
+        "passed": true,
+        "details": "error_count present",
+        "timestamp": "2025-10-03T08:50:08.908494"
+      },
+      {
+        "category": "Prometheus Metrics",
+        "test": "Metrics include pool info",
+        "passed": true,
+        "details": "connection_pool metrics present",
+        "timestamp": "2025-10-03T08:50:08.908500"
+      }
+    ],
+    "Production Readiness": [
+      {
+        "category": "Production Readiness",
+        "test": "No mock clients in use",
+        "passed": true,
+        "details": "Real Supabase clients initialized",
+        "timestamp": "2025-10-03T08:50:08.908514"
+      },
+      {
+        "category": "Production Readiness",
+        "test": "Client reports healthy status",
+        "passed": false,
+        "details": "Health status: False",
+        "timestamp": "2025-10-03T08:50:08.908539"
+      },
+      {
+        "category": "Production Readiness",
+        "test": "Error rate is acceptable",
+        "passed": false,
+        "details": "Error rate: 100.00%",
+        "timestamp": "2025-10-03T08:50:08.908551"
+      },
+      {
+        "category": "Production Readiness",
+        "test": "Service name configured",
+        "passed": true,
+        "details": "Service: security_test",
+        "timestamp": "2025-10-03T08:50:08.908568"
+      },
+      {
+        "category": "Production Readiness",
+        "test": "Environment configured",
+        "passed": true,
+        "details": "Environment: production",
+        "timestamp": "2025-10-03T08:50:08.908575"
+      }
+    ]
+  },
+  "security_findings": [],
+  "critical_issues": [],
+  "passed_checks": [
+    "Dual-Client Architecture: Anon client initialized",
+    "Dual-Client Architecture: Service client initialized",
+    "Dual-Client Architecture: Clients are separate instances",
+    "Dual-Client Architecture: Primary client is anon",
+    "RLS Enforcement: Anon client RLS restriction",
+    "Circuit Breaker: Circuit breaker enabled in config",
+    "Circuit Breaker: Failure threshold configured",
+    "Circuit Breaker: Circuit starts closed",
+    "Circuit Breaker: Circuit opens after failures",
+    "Circuit Breaker: Circuit blocks operations when open",
+    "Circuit Breaker: Circuit enters half-open after timeout",
+    "Circuit Breaker: Circuit closes on successful operation",
+    "Connection Pool: Connection pool limit configured",
+    "Connection Pool: Connection semaphore initialized",
+    "Connection Pool: Semaphore limit matches config",
+    "Connection Pool: Connection pool tracking accurate",
+    "Connection Pool: Pool exhaustion tracking enabled",
+    "Credential Security: Supabase URL configured",
+    "Credential Security: Anon key configured",
+    "Credential Security: Service key configured",
+    "Credential Security: Anon key appears to be valid JWT",
+    "Credential Security: Service key appears to be valid JWT",
+    "Credential Security: Credentials truncated in logs",
+    "Credential Security: Error handling doesn't expose credentials",
+    "Error Handling: Error doesn't expose API key",
+    "Error Handling: Error doesn't expose service key",
+    "Error Handling: Error message is informative",
+    "Retry Logic: Max retries configured",
+    "Retry Logic: Backoff max time configured",
+    "Retry Logic: Backoff factor configured",
+    "Retry Logic: Backoff factor is reasonable",
+    "Retry Logic: Max backoff time is reasonable",
+    "Timeout Configuration: Simple operation timeout",
+    "Timeout Configuration: Complex operation timeout",
+    "Timeout Configuration: Batch operation timeout",
+    "Timeout Configuration: Vector operation timeout",
+    "Timeout Configuration: Timeout hierarchy makes sense",
+    "Timeout Configuration: Law schema timeout multiplier",
+    "Timeout Configuration: Graph schema timeout multiplier",
+    "Timeout Configuration: Get operation uses simple timeout",
+    "Timeout Configuration: Batch insert uses batch timeout",
+    "Prometheus Metrics: Metrics collection enabled",
+    "Prometheus Metrics: Health info doesn't expose API key",
+    "Prometheus Metrics: Health info doesn't expose service key",
+    "Prometheus Metrics: Metrics include operation count",
+    "Prometheus Metrics: Metrics include error count",
+    "Prometheus Metrics: Metrics include pool info",
+    "Production Readiness: No mock clients in use",
+    "Production Readiness: Service name configured",
+    "Production Readiness: Environment configured"
+  ],
+  "failed_checks": [
+    "RLS Enforcement: Service client access - {'message': 'relation \"public.graph_entities\" does not exist', 'code': '42P01', 'hint': None, 'details': None}",
+    "Production Readiness: Client reports healthy status - Health status: False",
+    "Production Readiness: Error rate is acceptable - Error rate: 100.00%"
+  ],
+  "summary": {
+    "total_tests": 53,
+    "passed": 50,
+    "failed": 3,
+    "pass_rate": 94.33962264150944,
+    "critical_issues": 0,
+    "security_findings": 0,
+    "production_ready": false,
+    "recommendation": "CONDITIONAL - Minor issues should be addressed before production"
+  }
+}

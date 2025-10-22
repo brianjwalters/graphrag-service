@@ -1,0 +1,136 @@
+{
+  "description": "Configuration for GraphRAG data upload to Supabase",
+  "version": "1.0.0",
+  "database": {
+    "schema": "graph",
+    "vector_dimension": 2048,
+    "embedding_model": "jina-embeddings-v4"
+  },
+  "upload_settings": {
+    "batch_size": 500,
+    "max_retries": 3,
+    "retry_delay_seconds": 2,
+    "checkpoint_interval_records": 5000,
+    "progress_interval_records": 1000,
+    "validate_vectors": true,
+    "timeout_seconds": 30
+  },
+  "performance": {
+    "max_connections": 30,
+    "connection_timeout_seconds": 5,
+    "simple_op_timeout": 8,
+    "batch_op_timeout": 30,
+    "vector_op_timeout": 25
+  },
+  "upload_order": [
+    {
+      "table": "graph.document_registry",
+      "file": "document_registry.json",
+      "batch_size": 100,
+      "description": "Document registry - must be uploaded first (foreign key parent)"
+    },
+    {
+      "table": "graph.nodes",
+      "file": "nodes.json",
+      "batch_size": 500,
+      "description": "Graph nodes with 2048-dim embeddings - ~10,000 records"
+    },
+    {
+      "table": "graph.communities",
+      "file": "communities.json",
+      "batch_size": 100,
+      "description": "Entity communities with summary embeddings - ~500 records"
+    },
+    {
+      "table": "graph.edges",
+      "file": "edges.json",
+      "batch_size": 1000,
+      "description": "Graph edges - ~20,000 records"
+    },
+    {
+      "table": "graph.node_communities",
+      "file": "node_communities.json",
+      "batch_size": 2000,
+      "description": "Node-community membership junction table - ~29,978 records"
+    },
+    {
+      "table": "graph.chunks",
+      "file": "chunks.json",
+      "batch_size": 500,
+      "description": "Document chunks with content embeddings - ~25,000 records"
+    },
+    {
+      "table": "graph.enhanced_contextual_chunks",
+      "file": "enhanced_contextual_chunks.json",
+      "batch_size": 500,
+      "description": "Contextualized chunks with 2048-dim vectors - ~25,000 records"
+    },
+    {
+      "table": "graph.text_units",
+      "file": "text_units.json",
+      "batch_size": 1000,
+      "description": "GraphRAG text units - ~25,000 records"
+    },
+    {
+      "table": "graph.reports",
+      "file": "reports.json",
+      "batch_size": 100,
+      "description": "Analysis reports with embeddings - ~200 records"
+    }
+  ],
+  "data_validation": {
+    "required_fields": {
+      "graph.document_registry": ["document_id", "title"],
+      "graph.nodes": ["node_id", "node_type"],
+      "graph.communities": ["community_id", "title"],
+      "graph.edges": ["edge_id", "source_node_id", "target_node_id"],
+      "graph.node_communities": ["node_id", "community_id"],
+      "graph.chunks": ["chunk_id", "document_id", "content"],
+      "graph.enhanced_contextual_chunks": ["chunk_id", "document_id", "content"],
+      "graph.text_units": ["text_unit_id", "chunk_id", "text"],
+      "graph.reports": ["report_id", "report_type", "title", "content"]
+    },
+    "vector_fields": {
+      "graph.nodes": "embedding",
+      "graph.communities": "summary_embedding",
+      "graph.chunks": "content_embedding",
+      "graph.enhanced_contextual_chunks": "vector",
+      "graph.reports": "report_embedding"
+    }
+  },
+  "foreign_key_dependencies": {
+    "graph.chunks": ["graph.document_registry"],
+    "graph.edges": ["graph.nodes"],
+    "graph.node_communities": ["graph.nodes", "graph.communities"],
+    "graph.text_units": ["graph.chunks"],
+    "graph.reports": ["graph.communities", "graph.nodes"]
+  },
+  "environment_variables": {
+    "required": [
+      "SUPABASE_URL",
+      "SUPABASE_API_KEY",
+      "SUPABASE_SERVICE_KEY"
+    ],
+    "optional": [
+      "SUPABASE_OP_TIMEOUT",
+      "SUPABASE_MAX_RETRIES",
+      "SUPABASE_MAX_CONNECTIONS",
+      "SUPABASE_BATCH_SIZE"
+    ]
+  },
+  "estimated_totals": {
+    "total_records": 135078,
+    "total_embeddings": 60700,
+    "embedding_dimension": 2048,
+    "estimated_upload_time_minutes": 15,
+    "estimated_storage_gb": 3.5
+  },
+  "notes": [
+    "Upload order is critical - follows foreign key dependencies",
+    "All embeddings are 2048-dimensional Jina Embeddings v4",
+    "Service role key required for bypassing RLS policies",
+    "Checkpoint files enable resume after interruption",
+    "Progress tracking displays real-time statistics",
+    "Memory-efficient streaming processing for large files"
+  ]
+}
