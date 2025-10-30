@@ -1,10 +1,10 @@
 # GraphRAG Database Schema Documentation
 
-**Version:** 2.1
-**Last Updated:** 2025-01-21
+**Version:** 2.2
+**Last Updated:** 2025-10-24
 **Purpose:** Complete reference for the Luris GraphRAG database architecture implementing Microsoft GraphRAG methodology with legal document specialization
 
-**Note:** Updated with live schema verification via Supabase MCP integration
+**Note:** Updated with live schema verification via Supabase MCP integration. All schemas synchronized with production database including recent client_id/case_id multi-tenant enhancements.
 
 ---
 
@@ -482,13 +482,13 @@ SELECT
     metadata->>'document_id' AS document_id,
     client_id,
     metadata->>'case_id' AS case_id,
-    title AS entity_text,
-    node_type AS entity_type,
+    name AS entity_text,
+    type AS entity_type,
     metadata->>'confidence' AS confidence,
     metadata
 FROM graph.nodes
 WHERE client_id IS NOT NULL
-  AND node_type = 'entity';
+  AND type = 'entity';
 
 CREATE UNIQUE INDEX ON client.entities(entity_id);
 REFRESH MATERIALIZED VIEW CONCURRENTLY client.entities;
@@ -725,38 +725,41 @@ CREATE INDEX idx_user_case_client_mapping_status ON client.user_case_client_mapp
 
 **Purpose**: Central document catalog across all schemas (law + client)
 
-**Status**: ✅ ACTIVE (1,030 rows in production)
+**Status**: ✅ ACTIVE (15,101 rows in production)
 
 **Table Definition**:
 ```sql
 CREATE TABLE graph.document_registry (
-    document_id TEXT PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    document_id TEXT UNIQUE NOT NULL,  -- Unique identifier (not PK!)
     client_id UUID,  -- NULL for public law documents
-    case_id UUID,    -- NULL for non-case documents
+    case_id UUID REFERENCES client.cases(case_id),  -- NULL for non-case documents
 
     -- Document Info
-    title TEXT NOT NULL,
-    document_type TEXT NOT NULL,
-    source_schema TEXT NOT NULL,  -- 'law' or 'client'
+    title TEXT,
+    source_schema TEXT,  -- 'law' or 'client' (nullable)
+    source_table TEXT NOT NULL,
 
     -- Processing Status
-    processing_status TEXT DEFAULT 'pending',  -- pending, processing, completed, failed
-    pipeline_stage TEXT,  -- upload, extraction, chunking, graphrag
+    processing_status TEXT DEFAULT 'graph_pending',  -- graph_pending, graph_processing, graph_completed, graph_failed
+    status TEXT,  -- Additional status field
+
+    -- Graph Metrics
+    chunk_count INTEGER DEFAULT 0,
+    entity_count INTEGER DEFAULT 0,
+    graph_built BOOLEAN DEFAULT false,
 
     -- Metadata
-    file_path TEXT,
-    file_size_bytes BIGINT,
-    page_count INTEGER,
-
     metadata JSONB DEFAULT '{}',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_document_registry_client ON graph.document_registry(client_id);
-CREATE INDEX idx_document_registry_case ON graph.document_registry(case_id);
-CREATE INDEX idx_document_registry_status ON graph.document_registry(processing_status);
-CREATE INDEX idx_document_registry_schema ON graph.document_registry(source_schema);
+CREATE UNIQUE INDEX document_registry_document_id_key ON graph.document_registry(document_id);
+CREATE INDEX idx_doc_registry_document_id ON graph.document_registry(document_id);
+CREATE INDEX idx_doc_registry_source_schema ON graph.document_registry(source_schema);
+CREATE INDEX idx_doc_registry_processing_status ON graph.document_registry(processing_status);
+CREATE INDEX idx_doc_registry_graph_built ON graph.document_registry(graph_built);
 ```
 
 **Cross-Schema Document Tracking**:
@@ -778,61 +781,60 @@ ORDER BY created_at ASC;
 
 **Purpose**: **CANONICAL deduplicated entities** - the single source of truth for all entities across documents
 
-**Status**: ✅ ACTIVE (140,953 rows in production)
+**Status**: ✅ ACTIVE (119,838 rows in production)
 
 **Table Definition**:
 ```sql
 CREATE TABLE graph.nodes (
-    node_id TEXT PRIMARY KEY,
-    node_type TEXT NOT NULL,  -- entity, document, concept, community
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    node_id TEXT UNIQUE NOT NULL,  -- Unique node identifier (not PK!)
 
     -- Node Content
-    title TEXT NOT NULL,  -- Entity name/label (NEW: replaced 'label')
+    name TEXT NOT NULL,  -- Entity name or canonical text
+    type TEXT NOT NULL,  -- Entity type (from LurisEntityV2)
     description TEXT,
 
     -- Source Tracking
-    source_id TEXT,   -- Original source document/entity ID
-    source_type TEXT, -- document, extraction, manual
+    source_id TEXT,  -- Source entity_id or document_id
 
     -- Multi-Tenancy (Dedicated Columns for Performance)
-    client_id UUID,   -- NULL = public content (law schema)
-    case_id UUID,     -- NULL = not case-specific
+    client_id TEXT,  -- NULL = public content (law schema)
+    case_id UUID REFERENCES client.cases(case_id),  -- NULL = not case-specific
+    is_client_data BOOLEAN DEFAULT false,
+    document_type TEXT,
 
     -- Graph Metrics
-    degree INTEGER DEFAULT 0,              -- Number of connections
-    centrality REAL DEFAULT 0.0,           -- Betweenness centrality
-    importance_score REAL DEFAULT 0.5,     -- Computed importance (0-1)
-
-    -- Community Membership
-    community_id TEXT,  -- Primary community assignment
+    node_degree INTEGER DEFAULT 0,  -- Number of connected edges (NOT 'degree')
+    pagerank REAL,  -- PageRank score for importance ranking
+    rank_score REAL,  -- Additional ranking metric
 
     -- Vector Search
-    embedding vector(2048),  -- Jina v4 embeddings for semantic search
+    embeddings vector,  -- Vector embedding of node description (pgvector) - plural!
+    embedding_model TEXT,  -- Model used for embedding generation
 
     -- Metadata
-    metadata JSONB DEFAULT '{}',  -- Extensible: entity_type, confidence, attributes
+    properties JSONB DEFAULT '{}',  -- Additional node properties and attributes
 
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Primary and Unique Constraints
+CREATE UNIQUE INDEX graph_nodes_node_id_key ON graph.nodes(node_id);
+
 -- Performance Indexes
-CREATE INDEX idx_nodes_type ON graph.nodes(node_type);
-CREATE INDEX idx_nodes_client ON graph.nodes(client_id) WHERE client_id IS NOT NULL;
-CREATE INDEX idx_nodes_case ON graph.nodes(case_id) WHERE case_id IS NOT NULL;
-CREATE INDEX idx_nodes_community ON graph.nodes(community_id) WHERE community_id IS NOT NULL;
-CREATE INDEX idx_nodes_importance ON graph.nodes(importance_score DESC) WHERE importance_score >= 0.7;
+CREATE INDEX idx_nodes_node_id ON graph.nodes(node_id);
+CREATE INDEX idx_nodes_name ON graph.nodes(name);
+CREATE INDEX idx_nodes_type ON graph.nodes(type);
+CREATE INDEX idx_nodes_degree ON graph.nodes(node_degree);
+CREATE INDEX idx_nodes_pagerank ON graph.nodes(pagerank);
+CREATE INDEX idx_nodes_client_id ON graph.nodes(client_id);
 
--- Vector Search Index (HNSW for fast ANN)
-CREATE INDEX idx_nodes_embedding
-ON graph.nodes USING hnsw (embedding vector_cosine_ops)
-WITH (m = 16, ef_construction = 64);
-
--- Full-Text Search
-CREATE INDEX idx_nodes_title_fts ON graph.nodes USING gin(to_tsvector('english', title));
+-- Vector Search Index (IVFFlat for fast ANN)
+CREATE INDEX idx_nodes_embeddings ON graph.nodes USING ivfflat (embeddings vector_cosine_ops);
 
 -- Metadata Search
-CREATE INDEX idx_nodes_metadata_gin ON graph.nodes USING gin(metadata);
+CREATE INDEX idx_nodes_properties ON graph.nodes USING gin(properties);
 ```
 
 **Why This is Different from law.entities and client.entities**:
@@ -856,86 +858,96 @@ CREATE INDEX idx_nodes_metadata_gin ON graph.nodes USING gin(metadata);
 **Multi-Tenancy Support**:
 ```sql
 -- Get all entities for a specific client
-SELECT node_id, title, node_type, importance_score
+SELECT node_id, name, type, rank_score
 FROM graph.nodes
 WHERE client_id = 'client_uuid_123'
-  AND node_type = 'entity'
-ORDER BY importance_score DESC;
+  AND type = 'entity'
+ORDER BY rank_score DESC;
 
 -- Get all PUBLIC legal entities (law schema)
-SELECT node_id, title, metadata->>'entity_type' AS entity_type
+SELECT node_id, name, metadata->>'entity_type' AS entity_type
 FROM graph.nodes
 WHERE client_id IS NULL
-  AND node_type = 'entity'
-ORDER BY degree DESC  -- Most connected entities
+  AND type = 'entity'
+ORDER BY node_degree DESC  -- Most connected entities
 LIMIT 100;
 ```
 
 **Graph Properties**:
-- `degree`: Calculated from graph.edges (in-degree + out-degree)
-- `centrality`: Betweenness centrality (measures bridging importance)
-- `importance_score`: Composite metric: 0.4×centrality + 0.3×degree + 0.3×citation_count
+
+**Graph Metrics**:
+- `node_degree`: Calculated from graph.edges (in-degree + out-degree)
+- `pagerank`: PageRank algorithm score for entity importance
+- `rank_score`: Composite ranking metric (0.0-1.0)
 
 **Example Queries**:
 ```sql
 -- Find most important entities in constitutional law
-SELECT n.title, n.importance_score, n.degree, n.centrality
+SELECT n.name, n.rank_score, n.node_degree, n.pagerank
 FROM graph.nodes n
 WHERE n.metadata->>'entity_type' IN ('CASE_CITATION', 'LEGAL_DOCTRINE')
   AND n.metadata->>'subject_area' = 'constitutional_law'
-  AND n.importance_score >= 0.8
-ORDER BY n.importance_score DESC
+  AND n.rank_score >= 0.8
+ORDER BY n.rank_score DESC
 LIMIT 20;
 
 -- Get canonical form of entity across documents
-SELECT n.node_id, n.title, n.source_id, n.degree,
+SELECT n.node_id, n.name, n.source_id, n.node_degree,
        COUNT(DISTINCT n.metadata->>'document_id') AS document_count
 FROM graph.nodes n
-WHERE n.title ILIKE '%Bruen%'
-  AND n.node_type = 'entity'
-GROUP BY n.node_id, n.title, n.source_id, n.degree;
+WHERE n.name ILIKE '%Bruen%'
+  AND n.type = 'entity'
+GROUP BY n.node_id, n.name, n.source_id, n.node_degree;
 ```
 
 ### graph.edges
 
 **Purpose**: Cross-document relationships after deduplication
 
-**Status**: ✅ ACTIVE (81,974 rows in production)
+**Status**: ✅ ACTIVE (119,340 rows in production)
 
 **Table Definition**:
 ```sql
 CREATE TABLE graph.edges (
-    edge_id TEXT PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    edge_id TEXT UNIQUE NOT NULL,  -- Unique edge identifier (not PK!)
     source_node_id TEXT NOT NULL REFERENCES graph.nodes(node_id) ON DELETE CASCADE,
     target_node_id TEXT NOT NULL REFERENCES graph.nodes(node_id) ON DELETE CASCADE,
 
     -- Edge Type and Semantics
-    edge_type TEXT NOT NULL,           -- Relationship type
-    relationship_type TEXT NOT NULL,   -- Alias for compatibility
+    relationship_type TEXT NOT NULL,  -- Type of relationship (CITATION_TO, etc.)
 
     -- Edge Strength
-    weight REAL DEFAULT 1.0,           -- Edge weight for graph algorithms
-    confidence_score REAL DEFAULT 0.8, -- Extraction confidence
+    weight REAL DEFAULT 1.0,  -- Edge weight (confidence or frequency)
+    confidence_score REAL,  -- Relationship extraction confidence
 
     -- Evidence
-    evidence TEXT,  -- Supporting text or citation
+    source_text TEXT,  -- Context text where relationship was found
+
+    -- Multi-Tenancy
+    client_id TEXT,  -- Client identifier
+    case_id UUID REFERENCES client.cases(case_id),  -- Case identifier
+    is_client_data BOOLEAN DEFAULT false,
+    document_type TEXT,
 
     -- Metadata
-    metadata JSONB DEFAULT '{}',  -- client_id, case_id, document_id, graph_id
+    properties JSONB DEFAULT '{}',  -- Additional edge properties
 
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Performance Indexes
-CREATE INDEX idx_edges_source ON graph.edges(source_node_id);
-CREATE INDEX idx_edges_target ON graph.edges(target_node_id);
-CREATE INDEX idx_edges_type ON graph.edges(edge_type);
-CREATE INDEX idx_edges_bidirectional ON graph.edges(target_node_id, source_node_id);
-CREATE INDEX idx_edges_metadata_gin ON graph.edges USING gin(metadata);
+-- Primary and Unique Constraints
+CREATE UNIQUE INDEX graph_edges_edge_id_key ON graph.edges(edge_id);
 
--- Prevent duplicate edges
-CREATE UNIQUE INDEX idx_edges_unique
-ON graph.edges(source_node_id, target_node_id, edge_type);
+-- Performance Indexes
+CREATE INDEX idx_edges_edge_id ON graph.edges(edge_id);
+CREATE INDEX idx_edges_source_node ON graph.edges(source_node_id);
+CREATE INDEX idx_edges_target_node ON graph.edges(target_node_id);
+CREATE INDEX idx_edges_relationship_type ON graph.edges(relationship_type);
+CREATE INDEX idx_edges_weight ON graph.edges(weight);
+CREATE INDEX idx_edges_source_target ON graph.edges(source_node_id, target_node_id);
+CREATE INDEX idx_edges_properties ON graph.edges USING gin(properties);
 ```
 
 **Edge Types and Semantics**:
@@ -960,28 +972,28 @@ ON graph.edges(source_node_id, target_node_id, edge_type);
 ```sql
 -- Find all cases cited by Rahimi v. United States
 SELECT
-    e.edge_type,
-    target_node.title AS cited_case,
+    e.relationship_type,
+    target_node.name AS cited_case,
     e.confidence_score,
-    e.evidence
+    e.source_text AS evidence
 FROM graph.edges e
 JOIN graph.nodes source_node ON e.source_node_id = source_node.node_id
 JOIN graph.nodes target_node ON e.target_node_id = target_node.node_id
-WHERE source_node.title ILIKE '%Rahimi%'
-  AND e.edge_type = 'CITES'
+WHERE source_node.name ILIKE '%Rahimi%'
+  AND e.relationship_type = 'CITES'
 ORDER BY e.confidence_score DESC;
 
 -- Graph traversal: Find all cases within 2 hops of Heller
 WITH RECURSIVE case_network AS (
     -- Base case: Heller itself
-    SELECT node_id, title, 0 AS hop_distance
+    SELECT node_id, name, 0 AS hop_distance
     FROM graph.nodes
-    WHERE title ILIKE '%Heller%' AND node_type = 'entity'
+    WHERE name ILIKE '%Heller%' AND type = 'entity'
 
     UNION
 
     -- Recursive case: expand network
-    SELECT n.node_id, n.title, cn.hop_distance + 1
+    SELECT n.node_id, n.name, cn.hop_distance + 1
     FROM case_network cn
     JOIN graph.edges e ON (cn.node_id = e.source_node_id OR cn.node_id = e.target_node_id)
     JOIN graph.nodes n ON (
@@ -992,59 +1004,67 @@ WITH RECURSIVE case_network AS (
     )
     WHERE cn.hop_distance < 2
 )
-SELECT DISTINCT title, hop_distance
+SELECT DISTINCT name, hop_distance
 FROM case_network
-ORDER BY hop_distance, title;
+ORDER BY hop_distance, name;
 ```
 
 ### graph.communities
 
 **Purpose**: Leiden algorithm community detection results with AI-generated summaries
 
-**Status**: ✅ ACTIVE (1,000 rows in production)
+**Status**: ⚠️ EMPTY (0 rows in production - pending implementation)
 
 **Table Definition**:
 ```sql
 CREATE TABLE graph.communities (
-    community_id TEXT PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    community_id TEXT UNIQUE NOT NULL,  -- Unique community identifier (not PK!)
 
     -- Community Info
-    title TEXT NOT NULL,
-    summary TEXT,  -- AI-generated summary of community
-    level INTEGER DEFAULT 0,  -- Hierarchical community level
+    level INTEGER NOT NULL,  -- Hierarchical level (0=finest, higher=coarser)
+    title TEXT,  -- Community topic or title
+    summary TEXT,  -- LLM-generated community summary
+    description TEXT,  -- Additional community description
 
     -- Size Metrics
-    node_count INTEGER DEFAULT 0,
-    edge_count INTEGER DEFAULT 0,
+    size INTEGER DEFAULT 0,  -- Number of nodes in community
 
     -- Quality Metrics
-    coherence_score REAL DEFAULT 0.0,  -- Intra-community connection density
-    modularity REAL DEFAULT 0.0,       -- Community modularity score
+    modularity_score REAL,  -- Leiden modularity score for quality assessment
+
+    -- Hierarchical Structure
+    parent_community_id TEXT,  -- Parent community at coarser level
 
     -- Multi-Tenancy
-    client_id UUID,
-    case_id UUID,
+    client_id TEXT,  -- Client identifier
+    case_id UUID REFERENCES client.cases(case_id),  -- Case identifier
+    is_client_data BOOLEAN DEFAULT false,
+    document_type TEXT,
 
     -- Vector Search
-    summary_embedding vector(2048),  -- Jina v4 embedding of AI summary
+    embeddings vector,  -- Vector embedding of summary (pgvector)
+    embedding_model TEXT,  -- Embedding model name
 
     -- Metadata
-    metadata JSONB DEFAULT '{}',
+    properties JSONB DEFAULT '{}',  -- Community metadata
 
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Performance Indexes
-CREATE INDEX idx_communities_level ON graph.communities(level, node_count DESC);
-CREATE INDEX idx_communities_client ON graph.communities(client_id) WHERE client_id IS NOT NULL;
-CREATE INDEX idx_communities_case ON graph.communities(case_id) WHERE case_id IS NOT NULL;
-CREATE INDEX idx_communities_coherence ON graph.communities(coherence_score DESC);
+-- Primary and Unique Constraints
+CREATE UNIQUE INDEX graph_communities_community_id_key ON graph.communities(community_id);
 
--- Vector Search Index
-CREATE INDEX idx_communities_summary_embedding
-ON graph.communities USING hnsw (summary_embedding vector_cosine_ops)
-WITH (m = 16, ef_construction = 64);
+-- Performance Indexes
+CREATE INDEX idx_communities_community_id ON graph.communities(community_id);
+CREATE INDEX idx_communities_level ON graph.communities(level);
+CREATE INDEX idx_communities_parent ON graph.communities(parent_community_id);
+CREATE INDEX idx_communities_size ON graph.communities(size);
+CREATE INDEX idx_communities_properties ON graph.communities USING gin(properties);
+
+-- Vector Search Index (IVFFlat)
+CREATE INDEX idx_communities_embeddings ON graph.communities USING ivfflat (embeddings vector_cosine_ops);
 ```
 
 **Hierarchical Structure**:
@@ -1083,26 +1103,26 @@ SELECT
     community_id,
     title,
     summary,
-    node_count,
-    coherence_score
+    size,
+    modularity_score
 FROM graph.communities
 WHERE title ILIKE '%Second Amendment%'
    OR summary ILIKE '%firearm%'
    OR summary ILIKE '%gun rights%'
-ORDER BY coherence_score DESC;
+ORDER BY modularity_score DESC;
 
 -- Get all communities for a specific case
-SELECT c.title, c.summary, c.node_count, c.coherence_score
+SELECT c.title, c.summary, c.size, c.modularity_score
 FROM graph.communities c
 WHERE c.case_id = 'case_uuid_123'
-ORDER BY c.node_count DESC;
+ORDER BY c.size DESC;
 ```
 
 ### graph.node_communities
 
 **Purpose**: Many-to-many junction table for node-community membership
 
-**Status**: ⚠️ EMPTY (0 rows - table defined for future multi-community membership)
+**Status**: ⚠️ EMPTY (0 rows in production - pending implementation)
 
 **Table Definition**:
 ```sql
@@ -1110,15 +1130,18 @@ CREATE TABLE graph.node_communities (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     node_id TEXT NOT NULL REFERENCES graph.nodes(node_id) ON DELETE CASCADE,
     community_id TEXT NOT NULL REFERENCES graph.communities(community_id) ON DELETE CASCADE,
-    membership_strength REAL DEFAULT 1.0,  -- 0.0-1.0 strength of membership
+    level INTEGER NOT NULL,  -- Hierarchical level
 
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-
-    UNIQUE(node_id, community_id)
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Unique Constraints
+CREATE UNIQUE INDEX node_communities_node_id_community_id_key ON graph.node_communities(node_id, community_id);
+
+-- Performance Indexes
 CREATE INDEX idx_node_communities_node ON graph.node_communities(node_id);
 CREATE INDEX idx_node_communities_community ON graph.node_communities(community_id);
+CREATE INDEX idx_node_communities_level ON graph.node_communities(level);
 ```
 
 **Note**: Currently, node-community membership is tracked via `graph.nodes.community_id` (single community per node). This junction table supports future enhancement where nodes can belong to multiple communities with varying membership strengths.
@@ -1137,39 +1160,66 @@ ORDER BY nc.membership_strength DESC;
 
 **Purpose**: Basic document chunks from Chunking Service (Port 8009)
 
-**Status**: ✅ ACTIVE (30,000 rows in production)
+**Status**: ✅ ACTIVE (15,100 rows in production)
 
 **Table Definition**:
 ```sql
 CREATE TABLE graph.chunks (
-    chunk_id TEXT PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    chunk_id TEXT UNIQUE NOT NULL,  -- Unique chunk identifier (not PK!)
     document_id TEXT NOT NULL,
 
     -- Chunk Content
     content TEXT NOT NULL,
-    chunk_index INTEGER NOT NULL,  -- Position in document (0-based)
+    chunk_index INTEGER NOT NULL,  -- Sequential position in document (0-based)
+    enhanced_content TEXT,  -- Chunk with added contextual header
+    context_header TEXT,  -- Generated context summary for retrieval enhancement
 
-    -- Chunking Strategy
-    start_position INTEGER,
-    end_position INTEGER,
-    token_count INTEGER,
+    -- Position Information
+    start_char INTEGER,  -- Character start position in original document
+    end_char INTEGER,  -- Character end position in original document
+
+    -- Chunking Metadata
+    token_count INTEGER,  -- Approximate token count (for LLM context management)
+    content_type TEXT,  -- Content type with CHECK constraint
+    chunk_method TEXT,  -- Chunking method used
+    overlap_size INTEGER,  -- Overlap with adjacent chunks
+    parent_chunk_id TEXT,  -- Reference to parent chunk (if hierarchical)
+    context_before TEXT,  -- Text before chunk for context
+    context_after TEXT,  -- Text after chunk for context
+
+    -- Multi-Tenancy
+    client_id TEXT,  -- Client identifier for multi-tenant isolation
+    case_id UUID REFERENCES client.cases(case_id),
+    is_client_data BOOLEAN DEFAULT false,  -- True if from client schema
+    document_type TEXT,  -- Document classification (opinion, contract, etc.)
 
     -- Vector Search
-    content_embedding vector(2048),  -- Jina v4 embedding
+    embeddings vector,  -- Vector embedding of enhanced_content (pgvector, 2048-dim Jina v4)
+    embedding_model TEXT,  -- Model used for embedding generation
 
     -- Metadata
-    metadata JSONB DEFAULT '{}',
+    metadata JSONB DEFAULT '{}',  -- Chunk metadata (entities, topics, keywords)
 
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_chunks_document ON graph.chunks(document_id, chunk_index);
+-- Primary and Unique Constraints
+CREATE UNIQUE INDEX graph_chunks_chunk_id_key ON graph.chunks(chunk_id);
+CREATE UNIQUE INDEX chunks_document_id_chunk_index_key ON graph.chunks(document_id, chunk_index);
 
--- Vector Search Index
-CREATE INDEX idx_chunks_content_embedding
-ON graph.chunks USING hnsw (content_embedding vector_cosine_ops)
-WITH (m = 16, ef_construction = 64)
-WHERE content_embedding IS NOT NULL;
+-- Performance Indexes
+CREATE INDEX idx_chunks_chunk_id ON graph.chunks(chunk_id);
+CREATE INDEX idx_chunks_document_id ON graph.chunks(document_id);
+CREATE INDEX idx_chunks_chunk_index ON graph.chunks(chunk_index);
+CREATE INDEX idx_chunks_client_id ON graph.chunks(client_id);
+CREATE INDEX idx_chunks_is_client_data ON graph.chunks(is_client_data);
+CREATE INDEX idx_chunks_document_type ON graph.chunks(document_type);
+CREATE INDEX idx_chunks_metadata ON graph.chunks USING gin(metadata);
+
+-- Vector Search Index (IVFFlat for fast ANN search)
+CREATE INDEX idx_chunks_embeddings ON graph.chunks USING ivfflat (embeddings vector_cosine_ops);
 ```
 
 **Chunking Strategy**:
@@ -1190,56 +1240,45 @@ ORDER BY chunk_index;
 
 **Purpose**: Anthropic-style contextual retrieval chunks with enhanced context
 
-**Status**: ✅ ACTIVE (30,000 rows in production)
+**Status**: ⚠️ EMPTY (0 rows in production - pending implementation)
 
 **Table Definition**:
 ```sql
 CREATE TABLE graph.enhanced_contextual_chunks (
-    chunk_id TEXT PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    chunk_id TEXT UNIQUE NOT NULL,  -- Unique chunk identifier (not PK!)
     document_id TEXT NOT NULL,
 
     -- Content Layers
-    content TEXT NOT NULL,                    -- Original chunk content
-    contextualized_content TEXT NOT NULL,     -- Enhanced with document context
-    situational_context TEXT,                 -- Document title, section, topic
+    content TEXT NOT NULL,  -- Raw chunk content
+    enhanced_content TEXT,  -- Content with contextual header
+    context_header TEXT,  -- Generated context summary
 
     -- Position
-    chunk_index INTEGER NOT NULL,
-    start_position INTEGER,
-    end_position INTEGER,
+    chunk_index INTEGER,
+    start_char INTEGER,
+    end_char INTEGER,
 
-    -- Quality
-    quality_score REAL DEFAULT 0.0,  -- Contextual enhancement quality (0-1)
-
-    -- Vector Search (2048-dim for contextual embeddings)
-    vector vector(2048),  -- Jina v4 embedding of contextualized_content
-
-    -- Full-Text Search
-    search_vector tsvector,  -- For hybrid search (text + vector)
+    -- Multi-Tenancy
+    client_id TEXT,
+    case_id UUID REFERENCES client.cases(case_id),
+    is_client_data BOOLEAN DEFAULT false,
+    document_type TEXT,
 
     -- Metadata
-    metadata JSONB DEFAULT '{}',
+    metadata JSONB DEFAULT '{}',  -- Enhanced metadata
 
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_enhanced_chunks_document ON graph.enhanced_contextual_chunks(document_id, chunk_index);
-CREATE INDEX idx_enhanced_chunks_quality ON graph.enhanced_contextual_chunks(quality_score DESC)
-    WHERE quality_score >= 0.7;
+-- Primary and Unique Constraints
+CREATE UNIQUE INDEX enhanced_contextual_chunks_chunk_id_key ON graph.enhanced_contextual_chunks(chunk_id);
 
--- Vector Search Index (2048-dim)
-CREATE INDEX idx_enhanced_chunks_vector_hnsw
-ON graph.enhanced_contextual_chunks USING hnsw (vector vector_cosine_ops)
-WITH (m = 16, ef_construction = 64)
-WHERE vector IS NOT NULL;
-
--- Full-Text Search Index
-CREATE INDEX idx_enhanced_chunks_search_gin
-ON graph.enhanced_contextual_chunks USING gin(search_vector);
-
--- Metadata Search
-CREATE INDEX idx_enhanced_chunks_metadata_gin
-ON graph.enhanced_contextual_chunks USING gin(metadata);
+-- Performance Indexes
+CREATE INDEX idx_enh_chunks_chunk_id ON graph.enhanced_contextual_chunks(chunk_id);
+CREATE INDEX idx_enh_chunks_document_id ON graph.enhanced_contextual_chunks(document_id);
+CREATE INDEX idx_enh_chunks_metadata ON graph.enhanced_contextual_chunks USING gin(metadata);
 ```
 
 **Contextual Enhancement Layers**:
@@ -1285,31 +1324,44 @@ ORDER BY quality_score DESC;
 
 **Purpose**: Microsoft GraphRAG intermediate extraction layer linking entities to chunks
 
+**Status**: ⚠️ EMPTY (0 rows in production - pending implementation)
+
 **Table Definition**:
 ```sql
 CREATE TABLE graph.text_units (
-    text_unit_id TEXT PRIMARY KEY,
-    document_id TEXT NOT NULL,
-    chunk_id TEXT REFERENCES graph.chunks(chunk_id),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    text_unit_id TEXT UNIQUE NOT NULL,  -- Unique text unit identifier (not PK!)
+    chunk_id TEXT,  -- Parent chunk reference
+    document_id TEXT,
 
     -- Content
-    content TEXT NOT NULL,
-    tokens INTEGER DEFAULT 0,
+    text TEXT NOT NULL,  -- Text unit content
+    token_count INTEGER,  -- Token count
 
-    -- Entity Links (Array Fields)
-    entity_ids TEXT[] DEFAULT '{}',          -- Array of node_ids
-    relationship_ids TEXT[] DEFAULT '{}',    -- Array of edge_ids
+    -- Position
+    start_char INTEGER,
+    end_char INTEGER,
+
+    -- Multi-Tenancy
+    client_id TEXT,
+    case_id UUID REFERENCES client.cases(case_id),
+    is_client_data BOOLEAN DEFAULT false,
+    document_type TEXT,
 
     -- Metadata
     metadata JSONB DEFAULT '{}',
 
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_text_units_document ON graph.text_units(document_id);
-CREATE INDEX idx_text_units_chunk ON graph.text_units(chunk_id);
-CREATE INDEX idx_text_units_entities_gin ON graph.text_units USING gin(entity_ids);
-CREATE INDEX idx_text_units_rels_gin ON graph.text_units USING gin(relationship_ids);
+-- Primary and Unique Constraints
+CREATE UNIQUE INDEX text_units_text_unit_id_key ON graph.text_units(text_unit_id);
+
+-- Performance Indexes
+CREATE INDEX idx_text_units_text_unit_id ON graph.text_units(text_unit_id);
+CREATE INDEX idx_text_units_chunk_id ON graph.text_units(chunk_id);
+CREATE INDEX idx_text_units_metadata ON graph.text_units USING gin(metadata);
 ```
 
 **Purpose in Microsoft GraphRAG**:
@@ -1330,45 +1382,46 @@ ORDER BY created_at DESC;
 
 **Purpose**: AI-generated summaries (expensive, optional in LazyGraphRAG)
 
-**Status**: ⚠️ EMPTY (0 rows - LazyGraphRAG generates on-demand)
+**Status**: ⚠️ EMPTY (0 rows in production - LazyGraphRAG generates on-demand)
 
 **Table Definition**:
 ```sql
 CREATE TABLE graph.reports (
-    report_id TEXT PRIMARY KEY,
-    report_type TEXT NOT NULL,  -- global, community, node
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    report_id TEXT UNIQUE NOT NULL,  -- Unique report identifier (not PK!)
 
     -- Report Content
     title TEXT NOT NULL,
-    summary TEXT NOT NULL,  -- AI-generated summary
+    content TEXT NOT NULL,  -- Full report content (markdown)
+    summary TEXT,  -- Executive summary
+    report_type TEXT,  -- Report type (community, entity, document)
 
-    -- Scope
-    community_id TEXT REFERENCES graph.communities(community_id),
-    node_id TEXT REFERENCES graph.nodes(node_id),
-
-    -- Quality
-    relevance_score REAL DEFAULT 0.0,  -- 0-1 relevance for query answering
+    -- Multi-Tenancy
+    client_id TEXT,
+    case_id UUID REFERENCES client.cases(case_id),
+    is_client_data BOOLEAN DEFAULT false,
 
     -- Vector Search
-    report_embedding vector(2048),
+    embeddings vector,  -- Vector embedding of report content (pgvector)
+    embedding_model TEXT,  -- Embedding model name
 
     -- Metadata
-    metadata JSONB DEFAULT '{}',
+    metadata JSONB DEFAULT '{}',  -- Report metadata
 
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_reports_type ON graph.reports(report_type);
-CREATE INDEX idx_reports_community ON graph.reports(community_id) WHERE community_id IS NOT NULL;
-CREATE INDEX idx_reports_node ON graph.reports(node_id) WHERE node_id IS NOT NULL;
-CREATE INDEX idx_reports_relevance ON graph.reports(relevance_score DESC)
-    WHERE relevance_score >= 0.7;
+-- Primary and Unique Constraints
+CREATE UNIQUE INDEX reports_report_id_key ON graph.reports(report_id);
 
--- Vector Search Index
-CREATE INDEX idx_reports_report_embedding
-ON graph.reports USING hnsw (report_embedding vector_cosine_ops)
-WITH (m = 16, ef_construction = 64)
-WHERE report_embedding IS NOT NULL;
+-- Performance Indexes
+CREATE INDEX idx_reports_report_id ON graph.reports(report_id);
+CREATE INDEX idx_reports_report_type ON graph.reports(report_type);
+CREATE INDEX idx_reports_metadata ON graph.reports USING gin(metadata);
+
+-- Vector Search Index (IVFFlat)
+CREATE INDEX idx_reports_embeddings ON graph.reports USING ivfflat (embeddings vector_cosine_ops);
 ```
 
 **Report Types**:
@@ -1428,11 +1481,11 @@ Citations now exist **only** in `graph.nodes` with entity types:
 **Migration Path**:
 ```sql
 -- Migrate law.citations to graph.nodes
-INSERT INTO graph.nodes (node_id, node_type, title, metadata)
+INSERT INTO graph.nodes (node_id, type, name, metadata)
 SELECT
     citation_id AS node_id,
-    'entity' AS node_type,
-    citation_text AS title,
+    'entity' AS type,
+    citation_text AS name,
     jsonb_build_object(
         'entity_type', citation_type,
         'source_table', 'law.citations',
@@ -1473,7 +1526,7 @@ CREATE TABLE graph.entities (
 ```
 
 **New Approach**:
-All entities stored in `graph.nodes` with `node_type = 'entity'` and 2048-dim embeddings
+All entities stored in `graph.nodes` with `type = 'entity'` and 2048-dim embeddings
 
 **Migration Status**:
 - ✅ All production code migrated to graph.nodes
@@ -1814,13 +1867,13 @@ WHERE embedding IS NOT NULL;
 **Example Query**:
 ```sql
 -- Find similar entities for deduplication
-SELECT node_id, title,
-       1 - (embedding <=> :entity_embedding) AS similarity
+SELECT node_id, name,
+       1 - (embeddings <=> :entity_embedding) AS similarity
 FROM graph.nodes
-WHERE node_type = 'entity'
-  AND embedding IS NOT NULL
-  AND (1 - (embedding <=> :entity_embedding)) >= 0.85
-ORDER BY embedding <=> :entity_embedding
+WHERE type = 'entity'
+  AND embeddings IS NOT NULL
+  AND (1 - (embeddings <=> :entity_embedding)) >= 0.85
+ORDER BY embeddings <=> :entity_embedding
 LIMIT 1;
 ```
 
@@ -2181,8 +2234,8 @@ Time:   5-20 seconds per document (depends on entity count)
       "community_id": "comm_2a_doctrine_001",
       "title": "Second Amendment Doctrine",
       "ai_summary": "This community centers around landmark Second Amendment cases...",
-      "node_count": 12,
-      "coherence_score": 0.91
+      "size": 12,
+      "modularity_score": 0.91
     }
   ]
 }
@@ -2290,21 +2343,21 @@ ORDER BY created_at DESC;
    │                                      │
    │ Node 1:                              │
    │  - node_id: node_scotus_canonical_001│
-   │  - title: "Supreme Court of the      │
-   │             United States"           │
+   │  - name: "Supreme Court of the       │
+   │            United States"            │
    │  - source_ids: [ent_doc001_court_001,│
    │                 ent_doc002_court_003,│
    │                 ent_doc004_court_002]│
-   │  - degree: 45 (connections)          │
-   │  - importance_score: 0.95            │
-   │  - embedding: [vector...]            │
+   │  - node_degree: 45 (connections)     │
+   │  - rank_score: 0.95                  │
+   │  - embeddings: [vector...]           │
    │                                      │
    │ Node 2:                              │
    │  - node_id: node_scotus_acronym_001  │
-   │  - title: "SCOTUS"                   │
+   │  - name: "SCOTUS"                    │
    │  - source_ids: [ent_doc003_court_001]│
-   │  - degree: 12                        │
-   │  - importance_score: 0.72            │
+   │  - node_degree: 12                   │
+   │  - rank_score: 0.72                  │
    └────────────┬─────────────────────────┘
                 │
                 │ SINGLE SOURCE OF TRUTH
@@ -2339,11 +2392,11 @@ ORDER BY created_at DESC;
 
 ```sql
 -- EFFICIENT: Direct column filtering
-SELECT node_id, title, importance_score
+SELECT node_id, name, rank_score
 FROM graph.nodes
 WHERE client_id = 'client_uuid_123'  -- Indexed column
-  AND node_type = 'entity'
-ORDER BY importance_score DESC;
+  AND type = 'entity'
+ORDER BY rank_score DESC;
 
 -- FALLBACK: JSONB metadata filtering (slower)
 SELECT chunk_id, content
@@ -2407,9 +2460,9 @@ ALTER TABLE graph.nodes RENAME TO graph.nodes_old;
 ALTER TABLE graph.nodes_partitioned RENAME TO graph.nodes;
 
 -- Create indexes per partition
-CREATE INDEX idx_nodes_p0_type ON graph.nodes_p0(node_type);
-CREATE INDEX idx_nodes_p0_embedding
-ON graph.nodes_p0 USING hnsw (embedding vector_cosine_ops);
+CREATE INDEX idx_nodes_p0_type ON graph.nodes_p0(type);
+CREATE INDEX idx_nodes_p0_embeddings
+ON graph.nodes_p0 USING hnsw (embeddings vector_cosine_ops);
 -- ... (repeat for all partitions)
 ```
 
@@ -2499,8 +2552,8 @@ UNION ALL
 SELECT * FROM archive.nodes_2023;   -- Cold
 
 -- Applications query VIEW instead of table
-SELECT node_id, title FROM graph.nodes_all
-WHERE title ILIKE '%Bruen%';
+SELECT node_id, name FROM graph.nodes_all
+WHERE name ILIKE '%Bruen%';
 ```
 
 ---
@@ -2513,11 +2566,11 @@ WHERE title ILIKE '%Bruen%';
 
 ```sql
 -- Find entity across all documents via metadata
-SELECT node_id, title, metadata->>'document_id' AS document_id
+SELECT node_id, name, metadata->>'document_id' AS document_id
 FROM graph.nodes
 WHERE metadata @> '{"entity_text": "Bruen"}'
-  AND node_type = 'entity'
-ORDER BY importance_score DESC;
+  AND type = 'entity'
+ORDER BY rank_score DESC;
 
 -- Alternative: Find all chunks referencing the entity
 SELECT cc.chunk_id, cc.content, cc.document_id
@@ -2533,16 +2586,16 @@ ORDER BY cc.quality_score DESC;
 -- Find merged entity with all source documents
 SELECT
     n.node_id,
-    n.title AS canonical_name,
-    n.degree,
-    n.importance_score,
+    n.name AS canonical_name,
+    n.node_degree,
+    n.rank_score,
     COUNT(DISTINCT n.metadata->>'document_id') AS document_count,
     ARRAY_AGG(DISTINCT n.metadata->>'document_id') AS documents
 FROM graph.nodes n
-WHERE n.title ILIKE '%Bruen%'
-  AND n.node_type = 'entity'
-GROUP BY n.node_id, n.title, n.degree, n.importance_score
-ORDER BY n.importance_score DESC;
+WHERE n.name ILIKE '%Bruen%'
+  AND n.type = 'entity'
+GROUP BY n.node_id, n.name, n.node_degree, n.rank_score
+ORDER BY n.rank_score DESC;
 ```
 
 ### Graph Traversal Queries
@@ -2554,19 +2607,19 @@ WITH RECURSIVE entity_network AS (
     -- Base case: Starting entity
     SELECT
         n.node_id,
-        n.title,
+        n.name,
         0 AS hop_distance,
         ARRAY[n.node_id] AS path
     FROM graph.nodes n
-    WHERE n.title ILIKE '%Second Amendment%'
-      AND n.node_type = 'entity'
+    WHERE n.name ILIKE '%Second Amendment%'
+      AND n.type = 'entity'
 
     UNION
 
     -- Recursive case: Expand network
     SELECT
         n2.node_id,
-        n2.title,
+        n2.name,
         en.hop_distance + 1,
         en.path || n2.node_id
     FROM entity_network en
@@ -2582,11 +2635,11 @@ WITH RECURSIVE entity_network AS (
 )
 SELECT DISTINCT
     node_id,
-    title,
+    name,
     hop_distance,
     path
 FROM entity_network
-ORDER BY hop_distance, title;
+ORDER BY hop_distance, name;
 ```
 
 #### Get community members for entity X
@@ -2595,12 +2648,12 @@ ORDER BY hop_distance, title;
 -- Find entity's community and all members
 SELECT
     n.node_id,
-    n.title,
-    n.node_type,
-    n.importance_score,
+    n.name,
+    n.type,
+    n.rank_score,
     c.title AS community_name,
     c.summary AS community_summary,
-    nc.membership_strength
+    nc.level
 FROM graph.nodes n
 JOIN graph.node_communities nc ON n.node_id = nc.node_id
 JOIN graph.communities c ON nc.community_id = c.community_id
@@ -2608,11 +2661,11 @@ WHERE c.community_id = (
     -- Subquery: Find entity's primary community
     SELECT community_id
     FROM graph.nodes
-    WHERE title ILIKE '%Bruen%'
-      AND node_type = 'entity'
+    WHERE name ILIKE '%Bruen%'
+      AND type = 'entity'
     LIMIT 1
 )
-ORDER BY nc.membership_strength DESC, n.importance_score DESC;
+ORDER BY n.rank_score DESC;
 ```
 
 ### Cross-Document Queries
@@ -2624,16 +2677,16 @@ ORDER BY nc.membership_strength DESC, n.importance_score DESC;
 SELECT DISTINCT
     source_doc.document_id,
     source_doc.title,
-    e.edge_type,
+    e.relationship_type,
     e.confidence_score
 FROM graph.edges e
 JOIN graph.nodes target_node ON e.target_node_id = target_node.node_id
 JOIN graph.nodes source_node ON e.source_node_id = source_node.node_id
 JOIN graph.document_registry source_doc
     ON source_doc.document_id = source_node.metadata->>'document_id'
-WHERE target_node.title ILIKE '%Bruen%'
+WHERE target_node.name ILIKE '%Bruen%'
   AND target_node.metadata->>'entity_type' = 'CASE_CITATION'
-  AND e.edge_type = 'CITES'
+  AND e.relationship_type = 'CITES'
 ORDER BY e.confidence_score DESC;
 
 -- Method 2: Via chunk content search (citation text-based)
@@ -2655,17 +2708,17 @@ ORDER BY cc.quality_score DESC;
 -- Find documents sharing entities with target document
 WITH target_entities AS (
     -- Get entities from target document
-    SELECT DISTINCT node_id, title
+    SELECT DISTINCT node_id, name
     FROM graph.nodes
     WHERE metadata->>'document_id' = 'rahimi_v_us_2024'
-      AND node_type = 'entity'
+      AND type = 'entity'
 ),
 related_documents AS (
     -- Find documents sharing these entities
     SELECT
         n.metadata->>'document_id' AS document_id,
         COUNT(DISTINCT n.node_id) AS shared_entity_count,
-        ARRAY_AGG(DISTINCT n.title) AS shared_entities
+        ARRAY_AGG(DISTINCT n.name) AS shared_entities
     FROM graph.nodes n
     WHERE n.node_id IN (SELECT node_id FROM target_entities)
       AND n.metadata->>'document_id' != 'rahimi_v_us_2024'
@@ -2708,7 +2761,7 @@ CREATE TABLE law.citations AS
 SELECT
     node_id AS citation_id,
     metadata->>'document_id' AS document_id,
-    title AS citation_text,
+    name AS citation_text,
     metadata->>'entity_type' AS citation_type,
     (metadata->>'confidence')::REAL AS confidence,
     created_at
@@ -2725,14 +2778,14 @@ CREATE TABLE graph.embeddings (
 );
 
 INSERT INTO graph.embeddings (source_id, source_type, vector)
-SELECT node_id, 'entity', embedding::vector(2048)
-FROM graph.nodes WHERE embedding IS NOT NULL
+SELECT node_id, 'entity', embeddings::vector(2048)
+FROM graph.nodes WHERE embeddings IS NOT NULL
 UNION ALL
 SELECT chunk_id, 'chunk', vector
 FROM graph.enhanced_contextual_chunks WHERE vector IS NOT NULL
 UNION ALL
-SELECT community_id, 'community', summary_embedding::vector(2048)
-FROM graph.communities WHERE summary_embedding IS NOT NULL;
+SELECT community_id, 'community', embeddings::vector(2048)
+FROM graph.communities WHERE embeddings IS NOT NULL;
 
 COMMIT;
 ```
@@ -2856,7 +2909,7 @@ SELECT
     metadata->>'document_id' AS document_id,
     client_id,
     metadata->>'case_id' AS case_id,
-    title AS entity_text,
+    name AS entity_text,
     metadata->>'entity_type' AS entity_type,
     (metadata->>'confidence')::REAL AS confidence,
     (metadata->>'start_position')::INTEGER AS start_position,
@@ -2867,7 +2920,7 @@ SELECT
     created_at
 FROM graph.nodes
 WHERE client_id IS NOT NULL
-  AND node_type = 'entity';
+  AND type = 'entity';
 
 -- Phase 2: Create indexes
 CREATE UNIQUE INDEX ON client.entities_mv(entity_id);

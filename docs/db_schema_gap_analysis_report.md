@@ -38,10 +38,10 @@
 | Table | Documented Dimension | Live Dimension | Status |
 |-------|---------------------|----------------|--------|
 | `graph.nodes.embedding` | **1536** | **2048** | ❌ WRONG |
-| `graph.communities.summary_embedding` | **1536** | **2048** | ❌ WRONG |
-| `graph.chunks.content_embedding` | **1536** | **2048** | ❌ WRONG |
+| `graph.communities.embeddings` | **1536** | **2048** | ❌ WRONG |
+| `graph.chunks.embeddings` | **1536** | **2048** | ❌ WRONG |
 | `graph.enhanced_contextual_chunks.vector` | **2048** | **2048** | ✅ CORRECT |
-| `graph.reports.report_embedding` | **1536** | **2048** | ❌ WRONG |
+| `graph.reports.embeddings` | **1536** | **2048** | ❌ WRONG |
 | `graph.entities.embedding` (DEPRECATED) | Not documented | **2000** | ⚠️ SPECIAL CASE |
 
 ### Root Cause Analysis
@@ -61,13 +61,13 @@
 
 **db_schema.md Lines to Update**:
 
-1. **Line 139**: `chunk.content_embedding (1536-dim vector)` → `(2048-dim vector)`
+1. **Line 139**: `chunk.embeddings (1536-dim vector)` → `(2048-dim vector)`
 2. **Line 145**: `node.embedding (1536-dim vector)` → `(2048-dim vector)`
-3. **Line 148**: `community.summary_embedding (1536-dim)` → `(2048-dim)`
+3. **Line 148**: `community.embeddings (1536-dim)` → `(2048-dim)`
 4. **Line 588**: `embedding vector(1536)` → `embedding vector(2048)`
-5. **Line 803**: `summary_embedding vector(1536)` → `summary_embedding vector(2048)`
-6. **Line 912**: `content_embedding vector(1536)` → `content_embedding vector(2048)`
-7. **Line 1103**: `report_embedding vector(1536)` → `report_embedding vector(2048)`
+5. **Line 803**: `embeddings vector(1536)` → `embeddings vector(2048)`
+6. **Line 912**: `embeddings vector(1536)` → `embeddings vector(2048)`
+7. **Line 1103**: `embeddings vector(1536)` → `embeddings vector(2048)`
 8. **Lines 1376-1378**: Complete rewrite needed
 
 **Corrected Documentation** (Lines 1376-1380):
@@ -75,10 +75,10 @@
 **Vector Dimensions**:
 - **2048 dimensions**: ALL active tables use Jina Embeddings v4 (2048-dim)
   - `graph.nodes.embedding` (entity semantic search)
-  - `graph.communities.summary_embedding` (community concept search)
-  - `graph.chunks.content_embedding` (chunk similarity search)
+  - `graph.communities.embeddings` (community concept search)
+  - `graph.chunks.embeddings` (chunk similarity search)
   - `graph.enhanced_contextual_chunks.vector` (contextualized chunk search)
-  - `graph.reports.report_embedding` (report content search)
+  - `graph.reports.embeddings` (report content search)
 
 **Historical Note**: Deprecated `graph.entities` used 2000-dim vectors (pgvector 0.8.0 limit). All new tables standardized to 2048-dim Jina v4 embeddings.
 ```
@@ -326,13 +326,13 @@ FROM graph.chunk_cross_references ccr
 
 **Current Alternative**: Chunk similarity queries use **direct vector comparison**:
 ```sql
-SELECT c2.chunk_id, 1 - (c1.content_embedding <=> c2.content_embedding) AS similarity
+SELECT c2.chunk_id, 1 - (c1.embeddings <=> c2.embeddings) AS similarity
 FROM graph.chunks c1
 CROSS JOIN graph.chunks c2
 WHERE c1.chunk_id = :source_chunk_id
   AND c2.chunk_id != :source_chunk_id
-  AND (1 - (c1.content_embedding <=> c2.content_embedding)) >= 0.7
-ORDER BY c1.content_embedding <=> c2.content_embedding
+  AND (1 - (c1.embeddings <=> c2.embeddings)) >= 0.7
+ORDER BY c1.embeddings <=> c2.embeddings
 LIMIT 10;
 ```
 
@@ -375,13 +375,13 @@ LIMIT 10;
 SELECT
     c2.chunk_id,
     c2.content,
-    1 - (c1.content_embedding <=> c2.content_embedding) AS similarity
+    1 - (c1.embeddings <=> c2.embeddings) AS similarity
 FROM graph.chunks c1
 CROSS JOIN graph.chunks c2
 WHERE c1.chunk_id = :source_chunk_id
   AND c2.chunk_id != :source_chunk_id
-  AND c2.content_embedding IS NOT NULL
-ORDER BY c1.content_embedding <=> c2.content_embedding
+  AND c2.embeddings IS NOT NULL
+ORDER BY c1.embeddings <=> c2.embeddings
 LIMIT 20;
 ```
 
@@ -1077,12 +1077,12 @@ AND tablename IN ('clients', 'chats', 'messages', 'tasks', 'user_case_client_map
 
 | Schema | Table | Column | Dimension | Status |
 |--------|-------|--------|-----------|--------|
-| graph | chunks | content_embedding | **2048** | ✅ Active |
-| graph | communities | summary_embedding | **2048** | ✅ Active |
+| graph | chunks | embeddings | **2048** | ✅ Active |
+| graph | communities | embeddings | **2048** | ✅ Active |
 | graph | enhanced_contextual_chunks | vector | **2048** | ✅ Active |
 | graph | entities | embedding | **2000** | ⚠️ Deprecated |
 | graph | nodes | embedding | **2048** | ✅ Active |
-| graph | reports | report_embedding | **2048** | ✅ Active |
+| graph | reports | embeddings | **2048** | ✅ Active |
 
 **Conclusion**: **ALL active tables use 2048-dim Jina Embeddings v4**. Only deprecated `graph.entities` uses 2000-dim (pgvector 0.8.0 limit).
 
